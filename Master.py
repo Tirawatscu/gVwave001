@@ -21,16 +21,6 @@ class MyApp(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-def plus(self):
-    return 3+2.5
-
-<<<<<<< HEAD
-def mult(self):
-    return 2*3
-=======
-def minus(self):
-    return 3-2.5
->>>>>>> refs/remotes/origin/main
 
 if __name__ == '__main__':
     import sys
