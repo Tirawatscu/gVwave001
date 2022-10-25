@@ -21,7 +21,9 @@ class MyApp(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-
+def minus(self):
+    self.ui.textEdit_4.setText(str(int(self.ui.textEdit_4.toPlainText())-1))
+    return self.ui.textEdit_4.toPlainText()
 
 if __name__ == '__main__':
     import sys
