@@ -21,9 +21,8 @@ class MyApp(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-def minus(self):
-    self.ui.textEdit_4.setText(str(int(self.ui.textEdit_4.toPlainText())-1))
-    return self.ui.textEdit_4.toPlainText()
+def plus(self):
+    return 3+2.5
 
 if __name__ == '__main__':
     import sys
@@ -33,3 +32,4 @@ if __name__ == '__main__':
     sys.exit(app.exec_())
 
 # New comment for testing
+
