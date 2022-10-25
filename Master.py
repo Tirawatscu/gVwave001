@@ -24,6 +24,9 @@ class MyApp(QMainWindow):
 def plus(self):
     return 3+2.5
 
+def multip(self):
+    return 3*3
+
 if __name__ == '__main__':
     import sys
     app = QApplication(sys.argv)
