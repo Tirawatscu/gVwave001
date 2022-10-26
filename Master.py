@@ -26,6 +26,9 @@ class MyApp(QMainWindow):
         self.ui.Wave1.setLabel('bottom', 'Time', units='s')
         self.ui.Wave2.setBackground('w')
         self.ui.Wave3.setBackground('w')
+        #Set callback lable (Text, )
+        
+    
 
 
 if __name__ == '__main__':
