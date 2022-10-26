@@ -62,16 +62,6 @@
       <property name="checkable">
        <bool>false</bool>
       </property>
-      <widget class="QTextEdit" name="Station_in">
-       <property name="geometry">
-        <rect>
-         <x>100</x>
-         <y>30</y>
-         <width>161</width>
-         <height>31</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QLabel" name="label">
        <property name="geometry">
         <rect>
@@ -111,7 +101,17 @@
         <string>Long</string>
        </property>
       </widget>
-      <widget class="QTextEdit" name="Lat_in">
+      <widget class="QLineEdit" name="Station_in">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>30</y>
+         <width>161</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="Lat_in">
        <property name="geometry">
         <rect>
          <x>100</x>
@@ -121,7 +121,7 @@
         </rect>
        </property>
       </widget>
-      <widget class="QTextEdit" name="Long_in">
+      <widget class="QLineEdit" name="Long_in">
        <property name="geometry">
         <rect>
          <x>100</x>
@@ -240,12 +240,12 @@
         <string>Array Radius</string>
        </property>
       </widget>
-      <widget class="QTextEdit" name="Radius_in">
+      <widget class="QLineEdit" name="Radius_in">
        <property name="geometry">
         <rect>
-         <x>120</x>
+         <x>100</x>
          <y>60</y>
-         <width>151</width>
+         <width>161</width>
          <height>31</height>
         </rect>
        </property>

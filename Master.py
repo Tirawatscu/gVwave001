@@ -28,12 +28,24 @@ class MyApp(QMainWindow):
         self.ui.Wave2.setBackground('w')
         self.ui.Wave3.setBackground('w')
         #Set callback lable (Text, Combobox etc. here)
-        self.ui.Station_in.textChanged.connect(self.UpdateConfig)
-    
+        self.ui.Station_in.setText('BH-1')
+        self.ui.Lat_in.setText('0')
+        self.ui.Long_in.setText('0')
+        self.ui.Radius_in.setText('3')
+        self.ui.Station_in.textEdited.connect(self.UpdateConfig)
+        #check folder Storage exist or not if not create it
+        if not os.path.exists('Storage'):
+            os.makedirs('Storage')
+        storagePath = os.path.join(os.getcwd(), 'Storage')
+
     def UpdateConfig(self):
-        self.Station = self.ui.Station_in.toPlainText()
+        self.Station = self.ui.Station_in.text()
         print(self.Station)
+        
+        
+        
     
+
 
 
 if __name__ == '__main__':
