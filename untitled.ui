@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>867</width>
-    <height>573</height>
+    <width>872</width>
+    <height>570</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -147,9 +147,9 @@
       <widget class="QComboBox" name="Duration_in">
        <property name="geometry">
         <rect>
-         <x>120</x>
+         <x>140</x>
          <y>30</y>
-         <width>151</width>
+         <width>131</width>
          <height>31</height>
         </rect>
        </property>
@@ -225,8 +225,8 @@
       <widget class="QLabel" name="label_5">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>60</y>
+         <x>20</x>
+         <y>110</y>
          <width>101</width>
          <height>30</height>
         </rect>
@@ -243,9 +243,43 @@
       <widget class="QLineEdit" name="Radius_in">
        <property name="geometry">
         <rect>
-         <x>100</x>
-         <y>60</y>
-         <width>161</width>
+         <x>140</x>
+         <y>110</y>
+         <width>131</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="placeholderText">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_6">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>70</y>
+         <width>71</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Samples</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="Sample">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>70</y>
+         <width>131</width>
          <height>31</height>
         </rect>
        </property>
@@ -550,12 +584,36 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>867</width>
+     <width>872</width>
      <height>24</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionNew_Workspace"/>
+    <addaction name="actionOpen"/>
+   </widget>
+   <widget class="QMenu" name="menuAbout">
+    <property name="title">
+     <string>About</string>
+    </property>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionNew_Workspace">
+   <property name="text">
+    <string>New workspace</string>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Import project</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

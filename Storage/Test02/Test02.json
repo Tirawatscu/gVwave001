@@ -1,0 +1,29 @@
+[
+    {
+        "Station": "Test02",
+        "id": 0,
+        "Lat": "0",
+        "Long": "0",
+        "Radius": "3",
+        "Duration": "30 s",
+        "Sample": "7680"
+    },
+    {
+        "Station": "Test02",
+        "id": 0,
+        "Lat": "1232",
+        "Long": "0",
+        "Radius": "3",
+        "Duration": "30 s",
+        "Sample": "7680"
+    },
+    {
+        "Station": "Test02",
+        "id": 2,
+        "Lat": "123",
+        "Long": "23",
+        "Radius": "3",
+        "Duration": "30 s",
+        "Sample": "7680"
+    }
+]
