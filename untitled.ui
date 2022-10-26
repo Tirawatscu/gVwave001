@@ -62,7 +62,7 @@
       <property name="checkable">
        <bool>false</bool>
       </property>
-      <widget class="QTextEdit" name="textEdit">
+      <widget class="QTextEdit" name="Station_in">
        <property name="geometry">
         <rect>
          <x>100</x>
@@ -111,7 +111,7 @@
         <string>Long</string>
        </property>
       </widget>
-      <widget class="QTextEdit" name="textEdit_2">
+      <widget class="QTextEdit" name="Lat_in">
        <property name="geometry">
         <rect>
          <x>100</x>
@@ -121,7 +121,7 @@
         </rect>
        </property>
       </widget>
-      <widget class="QTextEdit" name="textEdit_3">
+      <widget class="QTextEdit" name="Long_in">
        <property name="geometry">
         <rect>
          <x>100</x>
@@ -144,7 +144,7 @@
       <property name="title">
        <string>GroupBox</string>
       </property>
-      <widget class="QComboBox" name="comboBox">
+      <widget class="QComboBox" name="Duration_in">
        <property name="geometry">
         <rect>
          <x>120</x>
@@ -240,7 +240,7 @@
         <string>Array Radius</string>
        </property>
       </widget>
-      <widget class="QTextEdit" name="textEdit_4">
+      <widget class="QTextEdit" name="Radius_in">
        <property name="geometry">
         <rect>
          <x>120</x>
