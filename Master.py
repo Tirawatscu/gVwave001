@@ -27,12 +27,13 @@ class MyApp(QMainWindow):
         self.ui.Wave1.setLabel('bottom', 'Time', units='s')
         self.ui.Wave2.setBackground('w')
         self.ui.Wave3.setBackground('w')
-        #Set callback lable (Text, Combobox etc. here)
+        #Initialize Input text box
         self.ui.Station_in.setText('BH-1')
         self.ui.Lat_in.setText('0')
         self.ui.Long_in.setText('0')
         self.ui.Radius_in.setText('3')
-        self.ui.Station_in.textEdited.connect(self.UpdateConfig)
+        #Set callback lable (Text, Combobox etc. here)
+        self.ui.StartButton.clicked.connect(self.UpdateConfig)
         #check folder Storage exist or not if not create it
         if not os.path.exists('Storage'):
             os.makedirs('Storage')
@@ -40,7 +41,13 @@ class MyApp(QMainWindow):
 
     def UpdateConfig(self):
         self.Station = self.ui.Station_in.text()
-        print(self.Station)
+        self.Lat     = self.ui.Lat_in.text()
+        self.Long    = self.ui.Long_in.text()
+        self.Radius  = self.ui.Radius_in.text()
+        print("Station :", self.Station)
+        print("Location : Lat ", self.Lat, "Long ", self.Long)
+        print("Array radius : ",self.Radius," m")
+
         
         
         

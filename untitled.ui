@@ -249,6 +249,12 @@
          <height>31</height>
         </rect>
        </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="placeholderText">
+        <string/>
+       </property>
       </widget>
      </widget>
      <widget class="QGroupBox" name="groupBox_3">
@@ -268,7 +274,7 @@
       <property name="title">
        <string>Test Panel</string>
       </property>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="RunButton">
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -312,7 +318,7 @@
        </property>
       </widget>
      </widget>
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="StartButton">
       <property name="geometry">
        <rect>
         <x>30</x>
