@@ -26,8 +26,12 @@ class MyApp(QMainWindow):
         self.ui.Wave1.setLabel('bottom', 'Time', units='s')
         self.ui.Wave2.setBackground('w')
         self.ui.Wave3.setBackground('w')
-        #Set callback lable (Text, )
-        
+        #Set callback lable (Text, Combobox etc. here)
+        self.ui.Station_in.textChanged.connect(self.UpdateParams)
+    
+    def UpdateParams(self):
+        self.Station = self.ui.Station_in.toPlainText()
+        print(self.Station)
     
 
 
