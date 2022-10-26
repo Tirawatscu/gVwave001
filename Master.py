@@ -20,6 +20,12 @@ class MyApp(QMainWindow):
         super(MyApp, self).__init__(parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.ui.Wave1.setBackground('w')
+        #set font size in pyqtplot
+        self.ui.Wave1.setLabel('left', 'Voltage', units='V')
+        self.ui.Wave1.setLabel('bottom', 'Time', units='s')
+        self.ui.Wave2.setBackground('w')
+        self.ui.Wave3.setBackground('w')
 
 
 if __name__ == '__main__':
