@@ -26,9 +26,16 @@ class MyApp(QMainWindow):
         self.ui.Wave1.setLabel('bottom', 'Time', units='s')
         self.ui.Wave2.setBackground('w')
         self.ui.Wave3.setBackground('w')
-        #Set callback lable (Text, )
         
-    
+        self.ui.Lat_in.setText('0')
+        self.ui.Long_in.setText('0')
+        self.ui.Radius_in.setText('3')
+        
+        #check folder Storage exist or not if not create it
+        if not os.path.exists('Storage'):
+            os.makedirs('Storage')
+        storagePath = os.path.join(os.getcwd(), 'Storage')
+
 
 
 if __name__ == '__main__':
