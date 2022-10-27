@@ -1,0 +1,11 @@
+[
+    {
+        "Station": "Test03",
+        "id": 0,
+        "Lat": "0",
+        "Long": "0",
+        "Radius": "3",
+        "Duration": "30 s",
+        "Sample": "7680"
+    }
+]

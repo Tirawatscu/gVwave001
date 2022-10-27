@@ -24,7 +24,8 @@ class MyApp(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.Wave1.setBackground('w')
-        self.ui.menuFile.triggered.connect(self.menuFile)
+        self.ui.actionNew_Workspace.triggered.connect(self.menuFile)
+        self.ui.actionOpen.triggered.connect(self.getfile)
         self.timeDuration = {
             '30 s' : 30,
             '1 min' : 60,
@@ -65,8 +66,7 @@ class MyApp(QMainWindow):
             os.makedirs('Storage')
         '''if not os.path.exists('Header'):
             os.makedirs('Header')'''
-        storagePath = os.path.join(os.getcwd(), 'Storage')
-        headerPath = os.path.join(os.getcwd(), 'Header')
+        self.storagePath = os.path.join(os.getcwd(), 'Storage')
 
     def updateSample(self):
         self.ui.Sample.setText(str(self.timeDuration[self.ui.Duration_in.currentText()]*256))
@@ -107,6 +107,36 @@ class MyApp(QMainWindow):
                 with open('Storage/'+self.Station+'/'+self.Station+'.json', 'w') as f:
                     json.dump([], f, indent=4)
 
+    def getfile(self):
+        fname = QFileDialog.getOpenFileName(self, "Import json", "./Storage/", "JSON Files (*.json)")[0]
+        self.ui.Station_in.setText(fname.split('/')[-1].split('.')[0])
+        if fname != '':
+            self.ui.Lat_in.setEnabled(True)
+            self.ui.Long_in.setEnabled(True)
+            self.ui.Radius_in.setEnabled(True)
+            self.ui.StartButton.setEnabled(True)
+            self.ui.Duration_in.setEnabled(True)
+        else:
+            self.ui.Lat_in.setEnabled(False)
+            self.ui.Long_in.setEnabled(False)
+            self.ui.Radius_in.setEnabled(False)
+            self.ui.StartButton.setEnabled(False)
+            self.ui.Duration_in.setEnabled(False)
+        '''self.ui.textBrowser.setText(fname.split("/")[-1])
+        self.ui.ListTable.clear()
+        self.ui.ListTable.setHorizontalHeaderLabels(['Group','Radius'])
+        self.tdms_file = TdmsFile.read(fname)
+        for name in self.tdms_file.groups():
+            currentRow = self.ui.ListTable.rowCount()
+            self.ui.ListTable.insertRow(currentRow)
+            self.ui.ListTable.setItem(currentRow, 0, QTableWidgetItem(name.name))
+            try:
+                self.ui.ListTable.setItem(currentRow, 1, QTableWidgetItem(str(self.tdms_file[name.name]["Ch 1"].properties["rad"])))
+            except:
+                self.ui.ListTable.setItem(currentRow, 1, QTableWidgetItem("N/A"))'''
+
+    #--------------- Start Recording -----------------#
+    #-------------------------------------------------#
     def saveConfigJson(self, Station, id, Lat, Long, Radius, Duration, Sample):
         with open('Storage/'+Station+'/'+Station+'.json') as f:
             data = json.load(f)
@@ -124,12 +154,13 @@ class MyApp(QMainWindow):
         with open('Storage/'+self.Station+'/'+self.Station+'.json', 'w') as outfile:
             json.dump(data, outfile, indent=4)
         print("Save Config")
+    #-------------------------------------------------#
 
     #--------------- Start Recording -----------------#
     #-------------------------------------------------#
     def startFunction(self):
         self.UpdateConfig()
-        self.saveConfigJson(self.Station, 0, self.Lat, self.Long, self.Radius, self.ui.Duration_in.currentText(), self.ui.Sample.text())
+        self.saveConfigJson(self.Station, 0, float(self.Lat), float(self.Long), float(self.Radius), float(self.timeDuration[self.ui.Duration_in.currentText()]), float(self.ui.Sample.text()))
         print("Start Function")
 
     #--------------- Stop Recording ------------------#
@@ -145,7 +176,6 @@ class NewProject_dialog(QDialog):
             return self.ui.projectName.text()
         else:
             return ""
-
 
 
 if __name__ == '__main__':
