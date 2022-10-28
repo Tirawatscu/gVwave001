@@ -1,0 +1,65 @@
+[
+    {
+        "Station": "Test04",
+        "id": 0,
+        "Lat": 90.0,
+        "Long": 99.0,
+        "Radius": 3.0,
+        "Duration": 30.0,
+        "Sample": 7680.0
+    },
+    {
+        "Station": "Test04",
+        "id": 1,
+        "Lat": 90.0,
+        "Long": 99.0,
+        "Radius": 3.0,
+        "Duration": 30.0,
+        "Sample": 7680.0
+    },
+    {
+        "Station": "Test04",
+        "id": 2,
+        "Lat": 90.0,
+        "Long": 99.0,
+        "Radius": 3.0,
+        "Duration": 30.0,
+        "Sample": 7680.0
+    },
+    {
+        "Station": "Test04",
+        "id": 3,
+        "Lat": 90.0,
+        "Long": 99.0,
+        "Radius": 3.0,
+        "Duration": 30.0,
+        "Sample": 7680.0
+    },
+    {
+        "Station": "Test04",
+        "id": "004",
+        "Lat": 11.0,
+        "Long": 45.0,
+        "Radius": 3.0,
+        "Duration": 30.0,
+        "Sample": 7680.0
+    },
+    {
+        "Station": "Test04",
+        "id": "005",
+        "Lat": 11.0,
+        "Long": 45.0,
+        "Radius": 3.0,
+        "Duration": 600.0,
+        "Sample": 153600.0
+    },
+    {
+        "Station": "Test04",
+        "id": "006",
+        "Lat": 0.0,
+        "Long": 0.0,
+        "Radius": 3.0,
+        "Duration": 30.0,
+        "Sample": 7680.0
+    }
+]

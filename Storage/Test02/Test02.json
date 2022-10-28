@@ -34,5 +34,23 @@
         "Radius": 3.0,
         "Duration": 30.0,
         "Sample": 7680.0
+    },
+    {
+        "Station": "Test02",
+        "id": 4,
+        "Lat": 90.0,
+        "Long": 99.0,
+        "Radius": 3.0,
+        "Duration": 30.0,
+        "Sample": 7680.0
+    },
+    {
+        "Station": "Test02",
+        "id": 5,
+        "Lat": 90.0,
+        "Long": 99.0,
+        "Radius": 3.0,
+        "Duration": 30.0,
+        "Sample": 7680.0
     }
 ]

@@ -1,6 +1,6 @@
 #import Pyqt5 modules
 from multiprocessing import Event
-from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QDialog, QInputDialog, QDialogButtonBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QDialog, QInputDialog, QDialogButtonBox, QTableWidgetItem
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
 #import window.py class
@@ -38,12 +38,15 @@ class MyApp(QMainWindow):
             '2 hour' : 7200,
         }
 
-
         #set font size in pyqtplot
         self.ui.Wave1.setLabel('left', 'Voltage', units='V')
         self.ui.Wave1.setLabel('bottom', 'Time', units='s')
         self.ui.Wave2.setBackground('w')
         self.ui.Wave3.setBackground('w')
+        self.ui.tableWidget.setColumnCount(1)
+        self.ui.tableWidget.setColumnWidth(0, 250)
+        self.ui.tableWidget.cellClicked.connect(self.rowSelected)
+        self.ui.dsPlot.clicked.connect(self.dsPlot)
         #Initialize Input text box
         self.ui.Station_in.setText('Location')
         self.ui.Lat_in.setText('0')
@@ -57,6 +60,7 @@ class MyApp(QMainWindow):
         self.ui.Radius_in.setEnabled(False)
         self.ui.StartButton.setEnabled(False)
         self.ui.Duration_in.setEnabled(False)
+        self.ui.ID_in.setEnabled(False)
         self.ui.Sample.setEnabled(False)
         #Set callback lable (Text, Combobox etc. here)
         self.ui.Duration_in.currentTextChanged.connect(self.updateSample)
@@ -92,18 +96,19 @@ class MyApp(QMainWindow):
             self.ui.Radius_in.setEnabled(True)
             self.ui.StartButton.setEnabled(True)
             self.ui.Duration_in.setEnabled(True)
-            self.saveConfigState = True
+            self.ui.ID_in.setEnabled(True)
+            saveConfigState = True
         else:
             self.ui.Lat_in.setEnabled(False)
             self.ui.Long_in.setEnabled(False)
             self.ui.Radius_in.setEnabled(False)
             self.ui.StartButton.setEnabled(False)
             self.ui.Duration_in.setEnabled(False)
-            self.saveConfigState = False
-        if self.saveConfigState:
+            self.ui.ID_in.setEnabled(False)
+            saveConfigState = False
+        if  saveConfigState:
             if not os.path.exists('Storage/'+self.Station):
                 os.makedirs('Storage/'+self.Station)
-                #make self.Station.json file in directory Storage/+self.Station
                 with open('Storage/'+self.Station+'/'+self.Station+'.json', 'w') as f:
                     json.dump([], f, indent=4)
 
@@ -116,25 +121,42 @@ class MyApp(QMainWindow):
             self.ui.Radius_in.setEnabled(True)
             self.ui.StartButton.setEnabled(True)
             self.ui.Duration_in.setEnabled(True)
+            self.ui.ID_in.setEnabled(True)
+            saveState = True
         else:
             self.ui.Lat_in.setEnabled(False)
             self.ui.Long_in.setEnabled(False)
             self.ui.Radius_in.setEnabled(False)
             self.ui.StartButton.setEnabled(False)
             self.ui.Duration_in.setEnabled(False)
-        '''self.ui.textBrowser.setText(fname.split("/")[-1])
-        self.ui.ListTable.clear()
-        self.ui.ListTable.setHorizontalHeaderLabels(['Group','Radius'])
-        self.tdms_file = TdmsFile.read(fname)
-        for name in self.tdms_file.groups():
-            currentRow = self.ui.ListTable.rowCount()
-            self.ui.ListTable.insertRow(currentRow)
-            self.ui.ListTable.setItem(currentRow, 0, QTableWidgetItem(name.name))
-            try:
-                self.ui.ListTable.setItem(currentRow, 1, QTableWidgetItem(str(self.tdms_file[name.name]["Ch 1"].properties["rad"])))
-            except:
-                self.ui.ListTable.setItem(currentRow, 1, QTableWidgetItem("N/A"))'''
+            self.ui.ID_in.setEnabled(False)
+            saveState = False
+        if saveState:
+            self.ui.tableWidget.clear()
+            self.ui.tableWidget.setHorizontalHeaderLabels(['Event'])
+            # Load json file
+            with open(fname, 'r') as f:
+                self.data = json.load(f)
+            #delete all row in table
+            self.ui.tableWidget.setRowCount(0)
+            for row in range(len(self.data)):
+                insertedItem = self.data[row]['Station']+'_'+str(self.data[row]['id'])
+                currentRow = self.ui.tableWidget.rowCount()
+                self.ui.tableWidget.insertRow(currentRow)
+                self.ui.tableWidget.setItem(currentRow, 0, QTableWidgetItem(insertedItem))
 
+    def rowSelected(self):
+        currentRow = self.ui.tableWidget.currentRow()
+        self.ui.station_Out.setText(self.data[currentRow]['Station'])
+        self.ui.id_Out.setText(str(self.data[currentRow]['id']))
+        self.ui.lat_Out.setText(str(self.data[currentRow]['Lat']))
+        self.ui.long_Out.setText(str(self.data[currentRow]['Long']))
+        self.ui.rad_Out.setText(str(self.data[currentRow]['Radius']))
+        self.ui.sample_Out.setText(str(self.data[currentRow]['Duration']))
+
+        
+        
+        
     #--------------- Start Recording -----------------#
     #-------------------------------------------------#
     def saveConfigJson(self, Station, id, Lat, Long, Radius, Duration, Sample):
@@ -142,7 +164,7 @@ class MyApp(QMainWindow):
             data = json.load(f)
             save = {
             'Station' : Station,
-            'id' : len(data),
+            'id' : "{0:03}".format(len(data)),
             'Lat' : Lat,
             'Long' : Long,
             'Radius' : Radius,
@@ -164,6 +186,9 @@ class MyApp(QMainWindow):
         print("Start Function")
 
     #--------------- Stop Recording ------------------#
+
+    def dsPlot(self):
+        self.ui.tabWidget.setCurrentIndex(2)
 
 class NewProject_dialog(QDialog):
     def __init__(self, parent=None):
