@@ -86,7 +86,7 @@
           <property name="font">
            <font>
             <family>Sarabun</family>
-            <pointsize>15</pointsize>
+            <pointsize>13</pointsize>
            </font>
           </property>
           <property name="title">
@@ -110,7 +110,7 @@
              <property name="font">
               <font>
                <family>Sarabun</family>
-               <pointsize>15</pointsize>
+               <pointsize>13</pointsize>
               </font>
              </property>
              <property name="text">
@@ -129,7 +129,7 @@
              <property name="font">
               <font>
                <family>Sarabun</family>
-               <pointsize>15</pointsize>
+               <pointsize>13</pointsize>
               </font>
              </property>
              <property name="text">
@@ -166,7 +166,7 @@
              <property name="font">
               <font>
                <family>Sarabun</family>
-               <pointsize>15</pointsize>
+               <pointsize>13</pointsize>
               </font>
              </property>
              <property name="text">
@@ -215,7 +215,7 @@
              <property name="font">
               <font>
                <family>Sarabun</family>
-               <pointsize>15</pointsize>
+               <pointsize>13</pointsize>
               </font>
              </property>
              <property name="text">
@@ -249,7 +249,7 @@
           <property name="font">
            <font>
             <family>Sarabun</family>
-            <pointsize>15</pointsize>
+            <pointsize>13</pointsize>
            </font>
           </property>
           <property name="title">
@@ -367,7 +367,7 @@
           <property name="font">
            <font>
             <family>Sarabun</family>
-            <pointsize>15</pointsize>
+            <pointsize>13</pointsize>
            </font>
           </property>
           <property name="title">
@@ -385,7 +385,7 @@
              <property name="font">
               <font>
                <family>Sarabun</family>
-               <pointsize>15</pointsize>
+               <pointsize>13</pointsize>
               </font>
              </property>
              <property name="text">
@@ -472,7 +472,7 @@
              <property name="font">
               <font>
                <family>Sarabun</family>
-               <pointsize>15</pointsize>
+               <pointsize>13</pointsize>
               </font>
              </property>
              <property name="text">
@@ -515,7 +515,7 @@
              <property name="font">
               <font>
                <family>Sarabun</family>
-               <pointsize>15</pointsize>
+               <pointsize>13</pointsize>
               </font>
              </property>
              <property name="text">
