@@ -24,10 +24,11 @@ class Ui_Dialog(object):
         self.projectName.setGeometry(QtCore.QRect(32, 40, 271, 31))
         self.projectName.setObjectName("projectName")
         self.label = QtWidgets.QLabel(Dialog)
-        self.label.setGeometry(QtCore.QRect(130, 20, 91, 16))
+        self.label.setGeometry(QtCore.QRect(60, 20, 201, 20))
         font = QtGui.QFont()
-        font.setPointSize(15)
+        font.setPointSize(13)
         self.label.setFont(font)
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
 
         self.retranslateUi(Dialog)

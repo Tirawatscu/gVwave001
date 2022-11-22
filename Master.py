@@ -358,6 +358,7 @@ class MyApp(QMainWindow):
 
     def inversion(self):
         
+        self.ui.analyzeStatus.setText("Status: Parameterizing")
         #Check Model folder exist if not create
         if not os.path.exists('Model/'+self.ui.Station_in.text()):
             os.makedirs('Model/'+self.ui.Station_in.text())
@@ -400,6 +401,7 @@ class MyApp(QMainWindow):
             param.to_param('Param/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text()), version="3.4.2")
 
         #Inversion
+        self.ui.analyzeStatus.setText("Status: Inversion")
         paramFile = 'Param/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text())
         tarFile = 'Target/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text())
         modFile = 'Model/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text())
@@ -409,6 +411,7 @@ class MyApp(QMainWindow):
         fname = 'Model/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text() + '.txt')
         suite = swprepost.GroundModelSuite.from_geopsy(fname=fname, nmodels="all")
         median = suite.median(nbest=50)
+        
 
         if not self.ui.Inplaced.isChecked():
             self.ui.VpProfile.clear()
@@ -429,7 +432,9 @@ class MyApp(QMainWindow):
         self.ui.densityProfile.setYRange(float(self.ui.pseudoDepth.text()), 0)
         self.ui.densityProfile.invertY(True)
         self.ui.densityProfile.showGrid(x=True, y=True)
-        
+
+        self.ui.analyzeStatus.setText("Status: Done")
+        self.ui.analyzeStatus_2.setText(f"Misfit: {suite.misfits:.2f}")
         
 
 class NewProject_dialog(QDialog):
