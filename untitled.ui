@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1156</width>
-    <height>715</height>
+    <width>1058</width>
+    <height>734</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -21,7 +21,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_3">
-    <item row="0" column="0">
+    <item row="0" column="0" rowspan="2">
      <widget class="QTabWidget" name="tabWidget">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -38,7 +38,7 @@
        <enum>QTabWidget::West</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <property name="documentMode">
        <bool>true</bool>
@@ -752,10 +752,10 @@
         <string>Soil Profile</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_11">
-        <item row="3" column="2">
-         <widget class="QPushButton" name="Report">
+        <item row="2" column="2" colspan="2">
+         <widget class="QPushButton" name="ExistedModel">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -768,7 +768,32 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>16777215</width>
+            <width>120</width>
+            <height>40</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Existed Model</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <widget class="QPushButton" name="Report">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>120</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>120</width>
             <height>40</height>
            </size>
           </property>
@@ -787,13 +812,13 @@
           </property>
           <property name="minimumSize">
            <size>
-            <width>80</width>
+            <width>120</width>
             <height>0</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>16777215</width>
+            <width>120</width>
             <height>40</height>
            </size>
           </property>
@@ -807,6 +832,9 @@
           <property name="title">
            <string/>
           </property>
+          <property name="alignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
           <layout class="QGridLayout" name="gridLayout_10">
            <item row="2" column="3">
             <widget class="QLineEdit" name="dF">
@@ -815,6 +843,12 @@
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>120</width>
+               <height>16777215</height>
+              </size>
              </property>
             </widget>
            </item>
@@ -851,6 +885,12 @@
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>120</width>
+               <height>16777215</height>
+              </size>
              </property>
             </widget>
            </item>
@@ -895,6 +935,9 @@
              <property name="text">
               <string>Number of layers</string>
              </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
             </widget>
            </item>
            <item row="2" column="2">
@@ -904,6 +947,13 @@
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3">
+            <widget class="QCheckBox" name="reverseLayer">
+             <property name="text">
+              <string>Reversed layer</string>
              </property>
             </widget>
            </item>
@@ -921,13 +971,6 @@
              </item>
             </widget>
            </item>
-           <item row="0" column="3">
-            <widget class="QCheckBox" name="reverseLayer">
-             <property name="text">
-              <string>Reversed layer</string>
-             </property>
-            </widget>
-           </item>
            <item row="0" column="0">
             <widget class="QLabel" name="label_25">
              <property name="text">
@@ -935,6 +978,13 @@
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="3">
+            <widget class="QCheckBox" name="Inplaced">
+             <property name="text">
+              <string>Hold on</string>
              </property>
             </widget>
            </item>
@@ -954,6 +1004,26 @@
              </property>
             </widget>
            </item>
+           <item row="4" column="0" colspan="2">
+            <widget class="QLabel" name="analyzeStatus">
+             <property name="text">
+              <string>Status</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="2" colspan="2">
+            <widget class="QLabel" name="analyzeStatus_2">
+             <property name="text">
+              <string>....</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
@@ -969,31 +1039,6 @@
            <widget class="PlotWidget" name="densityProfile" native="true"/>
           </item>
          </layout>
-        </item>
-        <item row="2" column="2">
-         <widget class="QPushButton" name="pushButton_6">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>80</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>40</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Analyze</string>
-          </property>
-         </widget>
         </item>
         <item row="1" column="0" rowspan="3">
          <widget class="QGroupBox" name="groupBox_6">
@@ -1207,7 +1252,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1156</width>
+     <width>1058</width>
      <height>24</height>
     </rect>
    </property>

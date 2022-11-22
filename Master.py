@@ -207,6 +207,14 @@ class MyApp(QMainWindow):
             self.ui.Wave1_3.clear()
             self.ui.Wave1_4.clear()
 
+        #check model file exist
+        file = 'Model/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text() + '.txt')
+        if os.path.isfile(file):
+            self.ui.ExistedModel.setEnabled(True)
+        else:
+            self.ui.ExistedModel.setEnabled(False)
+
+
 
 
         
@@ -318,9 +326,6 @@ class MyApp(QMainWindow):
         if not os.path.exists('Target/'+self.ui.Station_in.text()):
             os.makedirs('Target/'+self.ui.Station_in.text())
         self.ui.tabWidget.setCurrentIndex(3)
-        self.ui.VpProfile.clear()
-        self.ui.VsProfile.clear()
-        self.ui.densityProfile.clear()
         #set 2 decimal place
         self.ui.maxFreq.setText(str(self.maxFreq))
         self.ui.minFreq.setText(str(self.minFreq))
@@ -405,17 +410,25 @@ class MyApp(QMainWindow):
         suite = swprepost.GroundModelSuite.from_geopsy(fname=fname, nmodels="all")
         median = suite.median(nbest=50)
 
+        if not self.ui.Inplaced.isChecked():
+            self.ui.VpProfile.clear()
+            self.ui.VsProfile.clear()
+            self.ui.densityProfile.clear()
+
         self.ui.VsProfile.plot(median.vs2, median.depth, color='r', linewidth=2)
         self.ui.VsProfile.setYRange(float(self.ui.pseudoDepth.text()), 0)
         self.ui.VsProfile.invertY(True)
+        self.ui.VsProfile.showGrid(x=True, y=True)
 
         self.ui.VpProfile.plot(median.vp2, median.depth, color='r', linewidth=2)
         self.ui.VpProfile.setYRange(float(self.ui.pseudoDepth.text()), 0)
         self.ui.VpProfile.invertY(True)
+        self.ui.VpProfile.showGrid(x=True, y=True)
 
         self.ui.densityProfile.plot(median.rh2, median.depth, color='r', linewidth=2)
         self.ui.densityProfile.setYRange(float(self.ui.pseudoDepth.text()), 0)
         self.ui.densityProfile.invertY(True)
+        self.ui.densityProfile.showGrid(x=True, y=True)
         
         
 
