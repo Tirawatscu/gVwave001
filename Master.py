@@ -404,18 +404,18 @@ class MyApp(QMainWindow):
         fname = 'Model/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text() + '.txt')
         suite = swprepost.GroundModelSuite.from_geopsy(fname=fname, nmodels="all")
         median = suite.median(nbest=50)
-        
+
         self.ui.VsProfile.plot(median.vs2, median.depth, color='r', linewidth=2)
         self.ui.VsProfile.setYRange(float(self.ui.pseudoDepth.text()), 0)
         self.ui.VsProfile.invertY(True)
 
         self.ui.VpProfile.plot(median.vp2, median.depth, color='r', linewidth=2)
         self.ui.VpProfile.setYRange(float(self.ui.pseudoDepth.text()), 0)
-        self.ui.VpProfile.invert_yaxis()
+        self.ui.VsProfile.invertY(True)
 
         self.ui.densityProfile.plot(median.rh2, median.depth, color='r', linewidth=2)
         self.ui.densityProfile.setYRange(float(self.ui.pseudoDepth.text()), 0)
-        self.ui.densityProfile.invert_yaxis()
+        self.ui.VsProfile.invertY(True)
         
         
 
