@@ -406,7 +406,7 @@ class MyApp(QMainWindow):
         median = suite.median(nbest=50)
         self.ui.VsProfile.plot(median.vs2, median.depth, color='r', linewidth=2)
         self.ui.VpProfile.plot(median.vp2, median.depth, color='r', linewidth=2)
-        self.ui.densityProfile.plot(median.gm2, median.depth, color='r', linewidth=2)
+        #self.ui.densityProfile.plot(median.gm2, median.depth, color='r', linewidth=2)
         
         
 
