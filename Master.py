@@ -411,11 +411,11 @@ class MyApp(QMainWindow):
 
         self.ui.VpProfile.plot(median.vp2, median.depth, color='r', linewidth=2)
         self.ui.VpProfile.setYRange(float(self.ui.pseudoDepth.text()), 0)
-        self.ui.VsProfile.invertY(True)
+        self.ui.VpProfile.invertY(True)
 
         self.ui.densityProfile.plot(median.rh2, median.depth, color='r', linewidth=2)
         self.ui.densityProfile.setYRange(float(self.ui.pseudoDepth.text()), 0)
-        self.ui.VsProfile.invertY(True)
+        self.ui.densityProfile.invertY(True)
         
         
 
