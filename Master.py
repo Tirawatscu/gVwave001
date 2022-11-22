@@ -399,6 +399,14 @@ class MyApp(QMainWindow):
         tarFile = 'Target/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text())
         modFile = 'Model/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text())
         os.system(f'cmd /c "RunDinver.bat {paramFile} {tarFile} {int(self.ui.iteration.text())} {modFile}"')
+
+        #Plot Inversion result
+        fname = 'Model/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text() + '.txt')
+        suite = swprepost.GroundModelSuite.from_geopsy(fname=fname, nmodels="all")
+        median = suite.median(nbest=50)
+        self.ui.VsProfile.plot(median.vs2, median.depth, color='r', linewidth=2)
+        self.ui.VpProfile.plot(median.vp2, median.depth, color='r', linewidth=2)
+        self.ui.densityProfile.plot(median.gm2, median.depth, color='r', linewidth=2)
         
         
 
