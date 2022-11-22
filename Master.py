@@ -15,6 +15,8 @@ import sys
 from PyPOP import POP
 import pyqtgraph as pg
 import swprepost
+import matplotlib.pyplot as plt
+import matplotlib as mpl
 import subprocess
 import time
 import threading
@@ -357,7 +359,7 @@ class MyApp(QMainWindow):
     #--------------------- Inversion ----------------#
 
     def inversion(self):
-        
+            
         self.ui.analyzeStatus.setText("Status: Parameterizing")
         #Check Model folder exist if not create
         if not os.path.exists('Model/'+self.ui.Station_in.text()):
@@ -418,23 +420,40 @@ class MyApp(QMainWindow):
             self.ui.VsProfile.clear()
             self.ui.densityProfile.clear()
 
-        self.ui.VsProfile.plot(median.vs2, median.depth, color='r', linewidth=2)
+        numColor = 15
+        misfitRange = suite.misfit_range()
+
+        #map colormap to misfit range
+        c = np.arange(1, numColor + 1)
+
+        norm = mpl.colors.Normalize(vmin=c.min(), vmax=c.max())
+        cmap = mpl.cm.ScalarMappable(norm=norm, cmap=mpl.cm.jet)
+        cmap.set_array([])
+        cmap.set_clim(misfitRange[0], misfitRange[1])
+
+
+        for s in suite:
+            color = cmap.to_rgba(s.misfits)
+            self.ui.VsProfile.plot(s.vs2, s.depth, color=color)
+        
+
+        '''self.ui.VsProfile.plot(median.vs2, median.depth, pen='r', linewidth=2)
         self.ui.VsProfile.setYRange(float(self.ui.pseudoDepth.text()), 0)
         self.ui.VsProfile.invertY(True)
         self.ui.VsProfile.showGrid(x=True, y=True)
 
-        self.ui.VpProfile.plot(median.vp2, median.depth, color='r', linewidth=2)
+        self.ui.VpProfile.plot(median.vp2, median.depth, pen='r', linewidth=2)
         self.ui.VpProfile.setYRange(float(self.ui.pseudoDepth.text()), 0)
         self.ui.VpProfile.invertY(True)
         self.ui.VpProfile.showGrid(x=True, y=True)
 
-        self.ui.densityProfile.plot(median.rh2, median.depth, color='r', linewidth=2)
+        self.ui.densityProfile.plot(median.rh2, median.depth, pen='r', linewidth=2)
         self.ui.densityProfile.setYRange(float(self.ui.pseudoDepth.text()), 0)
         self.ui.densityProfile.invertY(True)
         self.ui.densityProfile.showGrid(x=True, y=True)
 
         self.ui.analyzeStatus.setText("Status: Done")
-        self.ui.analyzeStatus_2.setText(f"Misfit: {suite.misfits:.2f}")
+        self.ui.analyzeStatus_2.setText(f"Misfit: {np.min(suite.misfits):.2f}")'''
         
 
 class NewProject_dialog(QDialog):
