@@ -72,6 +72,7 @@ class MyApp(QMainWindow):
         self.ui.StartButton.clicked.connect(self.startFunction)
         self.ui.PrevLogger.clicked.connect(self.prevLogger)
         self.ui.Analyse.clicked.connect(self.analFunction)
+        self.ui.Analyzing.clicked.connect(self.inversion)
 
         self.ui.VsProfile.setLabel('bottom', 'Shear wave velocity', units='m/s')
         self.ui.VsProfile.setLabel('left', 'Depth', units='m')
@@ -332,21 +333,74 @@ class MyApp(QMainWindow):
         newStd = np.interp(newFreq, self.analFreq, self.std)
 
         tar = swprepost.Target(frequency=newFreq, velocity=newC, velstd=newStd)
-        tar.to_target('Target/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.ID_in.text()), version="3.4.2")
+        tar.to_target('Target/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text()), version="3.4.2")
         
         minPseudoDepth = np.min(tar.pseudo_depth())
-        minPsedoVs = np.min(tar.pseudo_vs())*0.8
+        self.minPsedoVs = np.min(tar.pseudo_vs())*0.8
         maxPsudoDepth = 2.5*minPseudoDepth
-        maxPsedoVs = np.max(tar.pseudo_vs())
+        self.maxPsedoVs = np.max(tar.pseudo_vs())
 
         self.ui.pseudoDepth.setText("{0:.2f}".format(maxPsudoDepth))
-        self.ui.pseudoVs.setText("{0:.2f}".format(maxPsedoVs))
-        print(minPsedoVs, minPseudoDepth, maxPsedoVs, maxPsudoDepth)
+        self.ui.pseudoVs.setText("{0:.2f}".format(self.maxPsedoVs))
+        print(self.minPsedoVs, minPseudoDepth, self.maxPsedoVs, maxPsudoDepth)
 
-        nLayer = np.ceil(maxPsudoDepth)
-        self.ui.nLayer.setText(str(nLayer))
-        paraMethod = self.ui.Parametization.currentText()
-        print(paraMethod)
+        self.nLayer = int(np.ceil(maxPsudoDepth))
+        self.ui.nLayer.setText(str(self.nLayer))
+        self.paraMethod = self.ui.Parametization.currentText()
+        self.par_rev = self.ui.reverseLayer.isChecked()
+        
+    #--------------------- Inversion ----------------#
+
+    def inversion(self):
+        
+        #Check Model folder exist if not create
+        if not os.path.exists('Model/'+self.ui.Station_in.text()):
+            os.makedirs('Model/'+self.ui.Station_in.text())
+
+        #Check if Param  folder exist
+        if not os.path.exists('Param/'+self.ui.Station_in.text()):
+            os.makedirs('Param/'+self.ui.Station_in.text())
+
+        #Construct parameter
+        if self.paraMethod == "Fixed-Thickness Layer":
+            param_vs = swprepost.Parameter.from_ftl(
+                nlayers = self.nLayer,
+                thickness = float(self.ui.thickness.text()),
+                par_min = self.minPsedoVs,
+                par_max = self.maxPsedoVs,
+                par_rev = self.par_rev
+            )
+            param_vp = swprepost.Parameter.from_ftl(
+                nlayers = self.nLayer,
+                thickness = float(self.ui.thickness.text()),
+                par_min = self.minPsedoVs*1.7,
+                par_max = self.maxPsedoVs*1.7,
+                par_rev = self.par_rev
+            )
+            param_rho = swprepost.Parameter.from_ftl(
+                nlayers = self.nLayer,
+                thickness = float(self.ui.thickness.text()),
+                par_min = 1700,
+                par_max = 2000,
+                par_rev = self.par_rev
+            )
+            param_pr = swprepost.Parameter.from_ftl(
+                nlayers = self.nLayer,
+                thickness = float(self.ui.thickness.text()),
+                par_min = 0.20,
+                par_max = 0.30,
+                par_rev = self.par_rev
+            )
+            param = swprepost.Parameterization(vp = param_vp, pr = param_pr, vs = param_vs, rh = param_rho)
+            param.to_param('Param/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text()), version="3.4.2")
+
+        #Inversion
+        paramFile = 'Param/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text())
+        tarFile = 'Target/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text())
+        modFile = 'Model/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text())
+        os.system(f'cmd /c "RunDinver.bat {paramFile} {tarFile} {int(self.ui.iteration.text())} {modFile}"')
+        
+        
 
 class NewProject_dialog(QDialog):
     def __init__(self, parent=None):
