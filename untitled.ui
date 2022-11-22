@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1058</width>
-    <height>734</height>
+    <width>1035</width>
+    <height>775</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -1030,13 +1030,43 @@
         <item row="0" column="0" colspan="4">
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <widget class="PlotWidget" name="VsProfile" native="true"/>
-          </item>
-          <item>
-           <widget class="PlotWidget" name="VpProfile" native="true"/>
-          </item>
-          <item>
-           <widget class="PlotWidget" name="densityProfile" native="true"/>
+           <widget class="QTabWidget" name="tabWidget_2">
+            <property name="currentIndex">
+             <number>0</number>
+            </property>
+            <widget class="QWidget" name="tab_4">
+             <attribute name="title">
+              <string>Variation Plot</string>
+             </attribute>
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <item>
+               <widget class="PlotWidget" name="VsProfile" native="true"/>
+              </item>
+              <item>
+               <widget class="PlotWidget" name="VpProfile" native="true"/>
+              </item>
+              <item>
+               <widget class="PlotWidget" name="densityProfile" native="true"/>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="tab_5">
+             <attribute name="title">
+              <string>Best Plot</string>
+             </attribute>
+             <layout class="QHBoxLayout" name="horizontalLayout_5">
+              <item>
+               <widget class="PlotWidget" name="VsProfile_2" native="true"/>
+              </item>
+              <item>
+               <widget class="PlotWidget" name="VpProfile_2" native="true"/>
+              </item>
+              <item>
+               <widget class="PlotWidget" name="densityProfile_2" native="true"/>
+              </item>
+             </layout>
+            </widget>
+           </widget>
           </item>
          </layout>
         </item>
@@ -1252,7 +1282,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1058</width>
+     <width>1035</width>
      <height>24</height>
     </rect>
    </property>

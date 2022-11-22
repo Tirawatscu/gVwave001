@@ -17,6 +17,7 @@ import pyqtgraph as pg
 import swprepost
 import matplotlib.pyplot as plt
 import matplotlib as mpl
+import pyqtgraph as pg
 import subprocess
 import time
 import threading
@@ -82,6 +83,14 @@ class MyApp(QMainWindow):
         self.ui.VpProfile.setLabel('left', 'Depth', units='m')
         self.ui.densityProfile.setLabel('bottom', 'Density', units='kg/m3')
         self.ui.densityProfile.setLabel('left', 'Depth', units='m')
+
+        self.ui.VsProfile_2.setLabel('bottom', 'Shear wave velocity', units='m/s')
+        self.ui.VsProfile_2.setLabel('left', 'Depth', units='m')
+        self.ui.VpProfile_2.setLabel('bottom', 'Compression wave velocity', units='m/s')
+        self.ui.VpProfile_2.setLabel('left', 'Depth', units='m')
+        self.ui.densityProfile_2.setLabel('bottom', 'Density', units='kg/m3')
+        self.ui.densityProfile_2.setLabel('left', 'Depth', units='m')
+
         self.ui.nLayer.setText('3')
         self.ui.thickness.setText('1')
         self.ui.iteration.setText('10000')
@@ -422,38 +431,51 @@ class MyApp(QMainWindow):
 
         numColor = 15
         misfitRange = suite.misfit_range()
-
+        misfits = suite.misfits
         #map colormap to misfit range
         c = np.arange(1, numColor + 1)
 
-        norm = mpl.colors.Normalize(vmin=c.min(), vmax=c.max())
-        cmap = mpl.cm.ScalarMappable(norm=norm, cmap=mpl.cm.jet)
+        norm = mpl.colors.Normalize(vmin=misfitRange[0], vmax=misfitRange[1])
+        cmap = mpl.cm.ScalarMappable(norm=norm, cmap=mpl.cm.cividis)
         cmap.set_array([])
-        cmap.set_clim(misfitRange[0], misfitRange[1])
-
-
-        for s in suite:
-            color = cmap.to_rgba(s.misfits)
-            self.ui.VsProfile.plot(s.vs2, s.depth, color=color)
         
+        #cmap to 0-255
 
-        '''self.ui.VsProfile.plot(median.vs2, median.depth, pen='r', linewidth=2)
+
+
+        for idx, i in reversed(list(enumerate(misfits))):
+            color = cmap.to_rgba(i)
+            self.ui.VsProfile.plot(suite[idx].vs2, suite[idx].depth, pen=pg.mkPen(pg.mkColor(int(color[0]*255), int(color[1]*255), int(color[2]*255)), width=3))
+            self.ui.VpProfile.plot(suite[idx].vp2, suite[idx].depth, pen=pg.mkPen(pg.mkColor(int(color[0]*255), int(color[1]*255), int(color[2]*255)), width=3))
+            self.ui.densityProfile.plot(suite[idx].rh2, suite[idx].depth, pen=pg.mkPen(pg.mkColor(int(color[0]*255), int(color[1]*255), int(color[2]*255)), width=3))
         self.ui.VsProfile.setYRange(float(self.ui.pseudoDepth.text()), 0)
         self.ui.VsProfile.invertY(True)
         self.ui.VsProfile.showGrid(x=True, y=True)
-
-        self.ui.VpProfile.plot(median.vp2, median.depth, pen='r', linewidth=2)
         self.ui.VpProfile.setYRange(float(self.ui.pseudoDepth.text()), 0)
         self.ui.VpProfile.invertY(True)
         self.ui.VpProfile.showGrid(x=True, y=True)
-
-        self.ui.densityProfile.plot(median.rh2, median.depth, pen='r', linewidth=2)
         self.ui.densityProfile.setYRange(float(self.ui.pseudoDepth.text()), 0)
         self.ui.densityProfile.invertY(True)
         self.ui.densityProfile.showGrid(x=True, y=True)
+        
+
+        self.ui.VsProfile_2.plot(median.vs2, median.depth, pen='r', linewidth=2)
+        self.ui.VsProfile_2.setYRange(float(self.ui.pseudoDepth.text()), 0)
+        self.ui.VsProfile_2.invertY(True)
+        self.ui.VsProfile_2.showGrid(x=True, y=True)
+
+        self.ui.VpProfile_2.plot(median.vp2, median.depth, pen='r', linewidth=2)
+        self.ui.VpProfile_2.setYRange(float(self.ui.pseudoDepth.text()), 0)
+        self.ui.VpProfile_2.invertY(True)
+        self.ui.VpProfile_2.showGrid(x=True, y=True)
+
+        self.ui.densityProfile_2.plot(median.rh2, median.depth, pen='r', linewidth=2)
+        self.ui.densityProfile_2.setYRange(float(self.ui.pseudoDepth.text()), 0)
+        self.ui.densityProfile_2.invertY(True)
+        self.ui.densityProfile_2.showGrid(x=True, y=True)
 
         self.ui.analyzeStatus.setText("Status: Done")
-        self.ui.analyzeStatus_2.setText(f"Misfit: {np.min(suite.misfits):.2f}")'''
+        self.ui.analyzeStatus_2.setText(f"Misfit: {np.min(suite.misfits):.4f}")
         
 
 class NewProject_dialog(QDialog):
