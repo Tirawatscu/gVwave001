@@ -405,7 +405,11 @@ class MyApp(QMainWindow):
         suite = swprepost.GroundModelSuite.from_geopsy(fname=fname, nmodels="all")
         median = suite.median(nbest=50)
         self.ui.VsProfile.plot(median.vs2, median.depth, color='r', linewidth=2)
+        self.ui.VsProfile.setYRange(float(self.ui.pseudoDepth.text()), 0)
+        self.ui.VsProfile.invert_yaxis()
         self.ui.VpProfile.plot(median.vp2, median.depth, color='r', linewidth=2)
+        self.ui.VpProfile.setYRange(float(self.ui.pseudoDepth.text()), 0)
+        self.ui.VpProfile.invert_yaxis()
         #self.ui.densityProfile.plot(median.gm2, median.depth, color='r', linewidth=2)
         
         
