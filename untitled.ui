@@ -38,7 +38,7 @@
        <enum>QTabWidget::West</enum>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <property name="documentMode">
        <bool>true</bool>
@@ -752,82 +752,50 @@
         <string>Soil Profile</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_11">
-        <item row="2" column="2" colspan="2">
-         <widget class="QPushButton" name="ExistedModel">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>90</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>120</width>
-            <height>40</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Existed Model</string>
-          </property>
-         </widget>
+        <item row="0" column="0" colspan="4">
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QTabWidget" name="tabWidget_2">
+            <property name="currentIndex">
+             <number>1</number>
+            </property>
+            <widget class="QWidget" name="tab_4">
+             <attribute name="title">
+              <string>Variation Plot</string>
+             </attribute>
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <item>
+               <widget class="PlotWidget" name="VsProfile" native="true"/>
+              </item>
+              <item>
+               <widget class="PlotWidget" name="VpProfile" native="true"/>
+              </item>
+              <item>
+               <widget class="PlotWidget" name="densityProfile" native="true"/>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="tab_5">
+             <attribute name="title">
+              <string>Best Plot</string>
+             </attribute>
+             <layout class="QHBoxLayout" name="horizontalLayout_5">
+              <item>
+               <widget class="PlotWidget" name="VsProfile_2" native="true"/>
+              </item>
+              <item>
+               <widget class="PlotWidget" name="VpProfile_2" native="true"/>
+              </item>
+              <item>
+               <widget class="PlotWidget" name="densityProfile_2" native="true"/>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+         </layout>
         </item>
-        <item row="3" column="2">
-         <widget class="QPushButton" name="Report">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>120</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>120</width>
-            <height>40</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Report</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2" colspan="2">
-         <widget class="QPushButton" name="Analyzing">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>120</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>120</width>
-            <height>40</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Analyze</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1" rowspan="3">
+        <item row="1" column="1" rowspan="4">
          <widget class="QGroupBox" name="groupBox_7">
           <property name="title">
            <string/>
@@ -1027,50 +995,7 @@
           </layout>
          </widget>
         </item>
-        <item row="0" column="0" colspan="4">
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <item>
-           <widget class="QTabWidget" name="tabWidget_2">
-            <property name="currentIndex">
-             <number>0</number>
-            </property>
-            <widget class="QWidget" name="tab_4">
-             <attribute name="title">
-              <string>Variation Plot</string>
-             </attribute>
-             <layout class="QHBoxLayout" name="horizontalLayout_4">
-              <item>
-               <widget class="PlotWidget" name="VsProfile" native="true"/>
-              </item>
-              <item>
-               <widget class="PlotWidget" name="VpProfile" native="true"/>
-              </item>
-              <item>
-               <widget class="PlotWidget" name="densityProfile" native="true"/>
-              </item>
-             </layout>
-            </widget>
-            <widget class="QWidget" name="tab_5">
-             <attribute name="title">
-              <string>Best Plot</string>
-             </attribute>
-             <layout class="QHBoxLayout" name="horizontalLayout_5">
-              <item>
-               <widget class="PlotWidget" name="VsProfile_2" native="true"/>
-              </item>
-              <item>
-               <widget class="PlotWidget" name="VpProfile_2" native="true"/>
-              </item>
-              <item>
-               <widget class="PlotWidget" name="densityProfile_2" native="true"/>
-              </item>
-             </layout>
-            </widget>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="1" column="0" rowspan="3">
+        <item row="1" column="0" rowspan="4">
          <widget class="QGroupBox" name="groupBox_6">
           <property name="title">
            <string/>
@@ -1269,6 +1194,81 @@
             </widget>
            </item>
           </layout>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QPushButton" name="Analyzing">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>120</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>120</width>
+            <height>40</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Analyze</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QPushButton" name="ExistedModel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>90</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>120</width>
+            <height>40</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Existed Model</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <widget class="QPushButton" name="Report">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>120</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>120</width>
+            <height>40</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Report</string>
+          </property>
          </widget>
         </item>
        </layout>
