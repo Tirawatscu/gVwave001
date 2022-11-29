@@ -19,6 +19,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import pyqtgraph as pg
 import subprocess
+from gVseism.gVseism import gVseism
 import time
 import threading
 import shutil
@@ -50,7 +51,9 @@ class MyApp(QMainWindow):
         self.ui.Wave1.setLabel('left', 'Voltage', units='V')
         self.ui.Wave1.setLabel('bottom', 'Time', units='s')
         self.ui.Wave2.setBackground('w')
+        self.ui.Wave2.setLabel('left', 'Voltage', units='V')
         self.ui.Wave3.setBackground('w')
+        self.ui.Wave3.setLabel('left', 'Voltage', units='V')
         self.ui.tableWidget.setColumnCount(1)
         self.ui.tableWidget.setColumnWidth(0, 250)
         self.ui.tableWidget.cellClicked.connect(self.rowSelected)
@@ -108,6 +111,8 @@ class MyApp(QMainWindow):
             os.makedirs('Header')'''
         self.storagePath = os.path.join(os.getcwd(), 'Storage')
         self.workspacePath = os.path.join(os.getcwd(), 'Workspace')
+
+        self.gV = gVseism('1', '3750', 'DIFFERENTIAL')
 
     def prevLogger(self):
         self.ui.tabWidget.setCurrentIndex(1)
@@ -257,7 +262,8 @@ class MyApp(QMainWindow):
     #-------------------------------------------------#
 
     def runTest(self):
-        subprocess.call(['sudo python gVseism/runTest.py 2000'], shell=True)
+        #subprocess.call(['sudo python gVseism/runTest.py 2000'], shell=True)
+        self.gV.runTest()
         #read test_temp_data.csv and plot to Wave1_1
         dfTemp = pd.read_csv('test_temp_data.csv')
         time = dfTemp['Time (s)']

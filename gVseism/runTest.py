@@ -14,7 +14,7 @@ GPIO.setup(PIN_DRDY, GPIO.IN)
 
 # define gain, sampling rate, and scan mode
 gain = ADS1256_GAIN['1']
-samplingRate = ADS1256_DRATE['30000']
+samplingRate = ADS1256_DRATE['3750']
 scanMode = ADS1256_SMODE['DIFFERENTIAL']
 
 
