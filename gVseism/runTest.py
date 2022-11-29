@@ -21,7 +21,7 @@ scanMode = ADS1256_SMODE['DIFFERENTIAL']
 def interruptInterpreter(ch):
 	pyadda.collectData()
 	volts = pyadda.readAllChannelsVolts(adcChannels)
-	data.append([timeStamp, volts[0], volts[1], volts[2], volts[3]])
+	data.append([timeStamp, volts[0], volts[1], volts[2]])
 
 # setup ads1256 chip
 pyadda.startADC(gain, samplingRate, scanMode)
