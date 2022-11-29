@@ -1,6 +1,6 @@
 #import Pyqt5 modules
 from multiprocessing import Event
-from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QDialog, QInputDialog, QDialogButtonBox, QTableWidgetItem
+from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QDialog, QTableWidgetItem
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
 #import window.py class
@@ -21,10 +21,7 @@ import pyqtgraph as pg
 import subprocess
 import time
 import threading
-import shutil
-import re
-import datetime
-import csv
+from gVseismModule import gVseismModule
 
 class MyApp(QMainWindow):
     def __init__(self, parent=None):
@@ -110,6 +107,8 @@ class MyApp(QMainWindow):
             os.makedirs('Header')'''
         self.storagePath = os.path.join(os.getcwd(), 'Storage')
         self.workspacePath = os.path.join(os.getcwd(), 'Workspace')
+
+        self.gV = gVseismModule('1', '3750', "DIFFERENTIAL")
 
     def prevLogger(self):
         self.ui.tabWidget.setCurrentIndex(1)
@@ -259,7 +258,8 @@ class MyApp(QMainWindow):
     #-------------------------------------------------#
 
     def runTest(self):
-        subprocess.call(['sudo python gVseism/runTest.py 2000'], shell=True)
+        self.gV.runTest()
+        #subprocess.call(['sudo python gVseism/runTest.py 2000'], shell=True)
         #read test_temp_data.csv and plot to Wave1_1
         dfTemp = pd.read_csv('test_temp_data.csv')
         time = dfTemp['Time (s)']
