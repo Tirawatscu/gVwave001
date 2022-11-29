@@ -19,7 +19,6 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import pyqtgraph as pg
 import subprocess
-from gVseism.gVseism import gVseism
 import time
 import threading
 import shutil
@@ -111,8 +110,6 @@ class MyApp(QMainWindow):
             os.makedirs('Header')'''
         self.storagePath = os.path.join(os.getcwd(), 'Storage')
         self.workspacePath = os.path.join(os.getcwd(), 'Workspace')
-
-        self.gV = gVseism('1', '3750', 'DIFFERENTIAL')
 
     def prevLogger(self):
         self.ui.tabWidget.setCurrentIndex(1)
@@ -262,8 +259,7 @@ class MyApp(QMainWindow):
     #-------------------------------------------------#
 
     def runTest(self):
-        #subprocess.call(['sudo python gVseism/runTest.py 2000'], shell=True)
-        self.gV.runTest()
+        subprocess.call(['sudo python gVseism/runTest.py 2000'], shell=True)
         #read test_temp_data.csv and plot to Wave1_1
         dfTemp = pd.read_csv('test_temp_data.csv')
         time = dfTemp['Time (s)']
