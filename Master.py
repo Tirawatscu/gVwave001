@@ -257,7 +257,7 @@ class MyApp(QMainWindow):
     #-------------------------------------------------#
 
     def runTest(self):
-        subprocess.check_call(['sudo python /gVseism/runTest.py', '2000'])
+        subprocess.call(['sudo python gVseism/runTest.py', '2000'])
 
     #-------------------------------------------------#
 
