@@ -76,6 +76,7 @@ class MyApp(QMainWindow):
         self.ui.PrevLogger.clicked.connect(self.prevLogger)
         self.ui.Analyse.clicked.connect(self.analFunction)
         self.ui.Analyzing.clicked.connect(self.inversion)
+        self.ui.RunButton.clicked.connect(self.runTest)
 
         self.ui.VsProfile.setLabel('bottom', 'Shear wave velocity', units='m/s')
         self.ui.VsProfile.setLabel('left', 'Depth', units='m')
@@ -252,6 +253,14 @@ class MyApp(QMainWindow):
         print("Save Config")
     #-------------------------------------------------#
 
+    #------------------- Run Test --------------------#
+    #-------------------------------------------------#
+
+    def runTest(self):
+        subprocess.check_call(['sudo python /pyadda/runTest.py', '2000'])
+
+    #-------------------------------------------------#
+
     #--------------- Start Recording -----------------#
     #-------------------------------------------------#
     def startFunction(self):
@@ -416,8 +425,10 @@ class MyApp(QMainWindow):
         paramFile = 'Param/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text())
         tarFile = 'Target/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text())
         modFile = 'Model/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text())
-        subprocess.check_call(['./RunDinver.sh', paramFile, tarFile, self.ui.iteration.text(), modFile])
-        #os.system(f'cmd /c "RunDinver.bat {paramFile} {tarFile} {int(self.ui.iteration.text())} {modFile}"')
+        try:
+            subprocess.check_call(['./RunDinver.sh', paramFile, tarFile, self.ui.iteration.text(), modFile])
+        except:
+            os.system(f'cmd /c "RunDinver.bat {paramFile} {tarFile} {int(self.ui.iteration.text())} {modFile}"')
 
         #Plot Inversion result
         fname = 'Model/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text() + '.txt')
