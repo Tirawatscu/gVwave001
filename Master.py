@@ -258,6 +258,15 @@ class MyApp(QMainWindow):
 
     def runTest(self):
         subprocess.call(['sudo python gVseism/runTest.py 2000'], shell=True)
+        #read test_temp_data.csv and plot to Wave1_1
+        dfTemp = pd.read_csv('test_temp_data.csv')
+        time = dfTemp['Time (s)']
+        self.ui.Wave1.clear()
+        self.ui.Wave1.plot(time, dfTemp['Ch 1'], pen='r')
+        self.ui.Wave2.clear()
+        self.ui.Wave2.plot(time, dfTemp['Ch 2'], pen='g')
+        self.ui.Wave3.clear()
+        self.ui.Wave3.plot(time, dfTemp['Ch 3'], pen='b')
 
     #-------------------------------------------------#
 
