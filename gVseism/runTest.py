@@ -38,7 +38,7 @@ prevTime = time.time()
 GPIO.add_event_detect(PIN_DRDY, GPIO.FALLING)
 noSample = int(sys.argv[1])
 
-with open('test_data.csv', 'w') as f:
+with open('test_temp_data.csv', 'w') as f:
 	f.write('Time (s)')
 	for i in range(1, 4):
 		f.write(",Ch {}".format(i))
