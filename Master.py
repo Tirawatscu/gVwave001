@@ -270,16 +270,16 @@ class MyApp(QMainWindow):
         #subprocess.call(['sudo python gVseism/runTest.py 2000'], shell=True)
         #read test_temp_data.csv and plot to Wave1_1
 
-        thread = QThread()
+        self.thread = QThread()
         # Step 3: Create a worker object
         self.worker = Worker()
         # Step 4: Move worker to the thread
-        self.worker.moveToThread(thread)
+        self.worker.moveToThread(self.thread)
         # Step 5: Connect signals and slots
-        thread.started.connect(self.worker.run)
-        self.worker.finished.connect(thread.quit)
+        self.thread.started.connect(self.worker.run)
+        self.worker.finished.connect(self.thread.quit)
         # Step 6: Start the thread
-        thread.start()
+        self.thread.start()
 
         dfTemp = pd.read_csv('test_temp_data.csv')
         time = dfTemp['Time (s)']
