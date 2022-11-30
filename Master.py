@@ -35,8 +35,8 @@ class Worker(QObject):
         self.gV.runTest()
         self.finished.emit()
 
-    def record(self, sample, filePath):
-        self.gV.recordWave(sample, filePath)
+    def record(self):
+        self.gV.recordWave(7680, '/Storage/work02/work02_008.csv')
         self.finished.emit()
 
 class MyApp(QMainWindow):
@@ -321,13 +321,14 @@ class MyApp(QMainWindow):
 
         self.saveConfigJson(self.Station, 0, float(self.Lat), float(self.Long), float(self.Radius), float(self.timeDuration[self.ui.Duration_in.currentText()]), float(self.ui.Sample.text()))
         print("Start Function")
-        self.fileName = self.Station+'_'+"{0:03}".format(len(data)+1)+'.csv'
+        self.fileName = self.Station+'_'+"{0:03}".format(len(data))+'.csv'
         self.filePath = os.path.join(self.storagePath, self.Station, self.fileName)
 
         self.thread = QThread()
         self.worker = Worker('1', '3750', 'DIFFERENTIAL')
         self.worker.moveToThread(self.thread)
-        self.thread.started.connect(lambda: self.worker.record(int(self.ui.Sample.text()), self.filePath))
+        #self.thread.started.connect(lambda: self.worker.record(int(self.ui.Sample.text()), self.filePath))
+        self.thread.started.connect(self.worker.run)
         self.worker.finished.connect(self.afterRecord)
         self.thread.start()
 
