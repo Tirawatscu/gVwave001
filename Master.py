@@ -35,6 +35,10 @@ class Worker(QObject):
         self.gV.runTest()
         self.finished.emit()
 
+    def record(self, sample, filePath):
+        self.gV.recordWave(sample, filePath)
+        self.finished.emit()
+
 class MyApp(QMainWindow):
     def __init__(self, parent=None):
         super(MyApp, self).__init__(parent)
@@ -274,14 +278,10 @@ class MyApp(QMainWindow):
         #read test_temp_data.csv and plot to Wave1_1
 
         self.thread = QThread()
-        # Step 3: Create a worker object
         self.worker = Worker('1', '3750', 'DIFFERENTIAL')
-        # Step 4: Move worker to the thread
         self.worker.moveToThread(self.thread)
-        # Step 5: Connect signals and slots
         self.thread.started.connect(self.worker.run)
-        self.worker.finished.connect(self.onFinished)
-        # Step 6: Start the thread
+        self.worker.finished.connect(self.onFinishedTest)
         self.thread.start()
 
         #Progress Bar Test in 1000 Samples with 256 Hz
@@ -295,9 +295,9 @@ class MyApp(QMainWindow):
             if time.time() - now > totalTime:
                 break
             self.ui.progressBar.setValue(int((time.time() - now)/totalTime*100))
-            time.sleep(0.01)
+            #time.sleep(0.01)
 
-    def onFinished(self):
+    def onFinishedTest(self):
         self.thread.quit()
         self.thread.wait()
         dfTemp = pd.read_csv('test_temp_data.csv')
@@ -315,8 +315,22 @@ class MyApp(QMainWindow):
     #-------------------------------------------------#
     def startFunction(self):
         self.UpdateConfig()
+
+        with open('Workspace/'+self.Station+'.json') as f:
+            data = json.load(f)
+
         self.saveConfigJson(self.Station, 0, float(self.Lat), float(self.Long), float(self.Radius), float(self.timeDuration[self.ui.Duration_in.currentText()]), float(self.ui.Sample.text()))
         print("Start Function")
+        self.fileName = self.Station+'_'+"{0:03}".format(len(data)+1)+'.csv'
+        self.filePath = os.path.join(self.storagePath, self.Station, self.fileName)
+
+        self.thread = QThread()
+        self.worker = Worker('1', '3750', 'DIFFERENTIAL')
+        self.worker.moveToThread(self.thread)
+        self.thread.started.connect(lambda: self.worker.record(int(self.ui.Sample.text()), self.filePath))
+        self.worker.finished.connect(self.afterRecord)
+        self.thread.start()
+
         self.ui.Lat_in.setEnabled(False)
         self.ui.Long_in.setEnabled(False)
         self.ui.Radius_in.setEnabled(False)
@@ -324,8 +338,21 @@ class MyApp(QMainWindow):
         self.ui.Duration_in.setEnabled(False)
         self.ui.ID_in.setEnabled(False)
 
+        self.ui.progressBar.setValue(0)
+        self.ui.progressBar.setMaximum(100)
+        self.ui.progressBar.setMinimum(0)
+        self.ui.progressBar.setFormat('Recording')
+        totalTime = int(self.ui.Sample.text())/256
+        now = time.time()
+        while True:
+            if time.time() - now > totalTime:
+                break
+            self.ui.progressBar.setValue(int((time.time() - now)/totalTime*100))
+            #time.sleep(0.01)
+
 
     #--------------- After Recording ----------------#
+    def afterRecord(self):
         self.ui.tableWidget.clear()
         self.ui.tableWidget.setHorizontalHeaderLabels(['Event'])
         # Load json file
