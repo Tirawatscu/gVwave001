@@ -225,10 +225,13 @@ class MyApp(QMainWindow):
             self.time = np.arange(0, int(len(self.df)/self.Freq), 1/self.Freq)
             self.ui.Wave1_2.clear()
             self.ui.Wave1_2.plot(self.time, self.df['Ch 1'], pen='r')
+            self.ui.Wave1_2.setLabel('left', 'Amplitude', units='V')
             self.ui.Wave1_3.clear()
             self.ui.Wave1_3.plot(self.time, self.df['Ch 2'], pen='g')
+            self.ui.Wave1_3.setLabel('left', 'Amplitude', units='V')
             self.ui.Wave1_4.clear()
             self.ui.Wave1_4.plot(self.time, self.df['Ch 3'], pen='b')
+            self.ui.Wave1_4.setLabel('left', 'Amplitude', units='V')
         else:
             self.ui.dsPlot.setEnabled(False)
             self.ui.Wave1_2.clear()
