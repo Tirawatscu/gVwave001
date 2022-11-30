@@ -39,6 +39,23 @@ class Worker(QObject):
         self.gV.recordWave()
         self.finished.emit()
 
+class analysisThread(QThread):
+    finished = pyqtSignal()
+    progress = pyqtSignal(int)
+    def __init__(self, param, target, iter, model):
+        super().__init__()
+        self.param = param
+        self.target = target
+        self.iter = iter
+        self.model = model
+
+    def run(self):
+        try:
+            subprocess.check_call(['./RunDinver.sh', self.param, self.target, self.iter, self.model])
+        except:
+            os.system(f'cmd /c "RunDinver.bat {self.param} {self.target} {self.iter} {self.model}"')
+        self.finished.emit()
+
 class MyApp(QMainWindow):
     def __init__(self, parent=None):
         super(MyApp, self).__init__(parent)
@@ -522,12 +539,22 @@ class MyApp(QMainWindow):
         tarFile = 'Target/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text())
         modFile = 'Model/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text())
         self.ui.analyzeStatus.setText("Status: Inversion Process")
-        time.sleep(1)
-        try:
+
+        '''try:
             subprocess.check_call(['./RunDinver.sh', paramFile, tarFile, self.ui.iteration.text(), modFile])
         except:
-            os.system(f'cmd /c "RunDinver.bat {paramFile} {tarFile} {int(self.ui.iteration.text())} {modFile}"')
+            os.system(f'cmd /c "RunDinver.bat {paramFile} {tarFile} {int(self.ui.iteration.text())} {modFile}"')'''
 
+        self.analThread = QThread()
+        self.analWorker = analysisThread(paramFile, tarFile, int(self.ui.iteration.text()), modFile)
+        self.analWorker.moveToThread(self.analThread)
+        self.analThread.started.connect(self.analWorker.run)
+        self.analWorker.finished.connect(self.onFinishAnal)
+        self.analThread.start()
+
+    def onFinishAnal(self):
+        self.analThread.quit()
+        self.analThread.wait()
         #Plot Inversion result
         fname = 'Model/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text() + '.txt')
         suite = swprepost.GroundModelSuite.from_geopsy(fname=fname, nmodels="all")
