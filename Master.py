@@ -542,16 +542,21 @@ class MyApp(QMainWindow):
         except:
             os.system(f'cmd /c "RunDinver.bat {paramFile} {tarFile} {int(self.ui.iteration.text())} {modFile}"')'''
 
+        def stopElapse():
+            self.process = False
+
         self.analThread = QThread()
         self.analWorker = analysisThread(paramFile, tarFile, self.ui.iteration.text(), modFile)
         self.analWorker.moveToThread(self.analThread)
         self.analThread.started.connect(self.analWorker.run)
         self.analWorker.finished.connect(self.onFinishAnal)
+        self.analWorker.finished.connect(stopElapse)
         self.analThread.start()
-
+        self.process = True
+        
         #Loop to show elapsed time
         now = time.time()
-        while not self.analWorker.finished:
+        while self.process:
             elapsed = time.time() - now
             self.ui.analyzeStatus.setText("Status: Inversion Process - Elapsed Time: "+str(elapsed))
             time.sleep(5)
@@ -579,7 +584,8 @@ class MyApp(QMainWindow):
         norm = mpl.colors.Normalize(vmin=misfitRange[0], vmax=misfitRange[1])
         cmap = mpl.cm.ScalarMappable(norm=norm, cmap=mpl.cm.Reds)
         cmap.set_array([])
-        
+        #reverse the color map
+        cmap.set_clim(misfitRange[1], misfitRange[0])
         #cmap to 0-255
 
         for idx, i in reversed(list(enumerate(misfits))):
