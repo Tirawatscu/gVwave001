@@ -95,17 +95,23 @@ class MyApp(QMainWindow):
 
         self.ui.VsProfile.setLabel('bottom', 'Shear wave velocity', units='m/s')
         self.ui.VsProfile.setLabel('left', 'Depth', units='m')
+        self.ui.VsProfile.setBackground('w')
         self.ui.VpProfile.setLabel('bottom', 'Compression wave velocity', units='m/s')
         self.ui.VpProfile.setLabel('left', 'Depth', units='m')
+        self.ui.VpProfile.setBackground('w')
         self.ui.densityProfile.setLabel('bottom', 'Density', units='kg/m3')
         self.ui.densityProfile.setLabel('left', 'Depth', units='m')
+        self.ui.densityProfile.setBackground('w')
 
         self.ui.VsProfile_2.setLabel('bottom', 'Shear wave velocity', units='m/s')
         self.ui.VsProfile_2.setLabel('left', 'Depth', units='m')
+        self.ui.VsProfile_2.setBackground('w')
         self.ui.VpProfile_2.setLabel('bottom', 'Compression wave velocity', units='m/s')
         self.ui.VpProfile_2.setLabel('left', 'Depth', units='m')
+        self.ui.VpProfile_2.setBackground('w')
         self.ui.densityProfile_2.setLabel('bottom', 'Density', units='kg/m3')
         self.ui.densityProfile_2.setLabel('left', 'Depth', units='m')
+        self.ui.densityProfile_2.setBackground('w')
 
         self.ui.nLayer.setText('3')
         self.ui.thickness.setText('1')
@@ -540,12 +546,10 @@ class MyApp(QMainWindow):
         c = np.arange(1, numColor + 1)
 
         norm = mpl.colors.Normalize(vmin=misfitRange[0], vmax=misfitRange[1])
-        cmap = mpl.cm.ScalarMappable(norm=norm, cmap=mpl.cm.cividis)
+        cmap = mpl.cm.ScalarMappable(norm=norm, cmap=mpl.cm.reds)
         cmap.set_array([])
         
         #cmap to 0-255
-
-
 
         for idx, i in reversed(list(enumerate(misfits))):
             color = cmap.to_rgba(i)
