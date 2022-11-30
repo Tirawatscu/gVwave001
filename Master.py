@@ -379,6 +379,11 @@ class MyApp(QMainWindow):
         self.ui.Radius_in.setEnabled(True)
         self.ui.StartButton.setEnabled(True)
         self.ui.Duration_in.setEnabled(True)
+        #Switch to Loggin Tab
+        self.ui.tabWidget.setCurrentIndex(1)
+        self.ui.tableWidget.selectRow(len(self.data)-1)
+        self.ui.tableWidget.setFocus()
+        self.rowSelected()
 
     #--------------- Stop Recording ------------------#
 
@@ -464,6 +469,7 @@ class MyApp(QMainWindow):
     def inversion(self):
             
         self.ui.analyzeStatus.setText("Status: Parameterizing")
+        time.sleep(1)
         #Check Model folder exist if not create
         if not os.path.exists('Model/'+self.ui.Station_in.text()):
             os.makedirs('Model/'+self.ui.Station_in.text())
@@ -506,10 +512,11 @@ class MyApp(QMainWindow):
             param.to_param('Param/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text()), version="3.4.2")
 
         #Inversion
-        self.ui.analyzeStatus.setText("Status: Inversion")
         paramFile = 'Param/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text())
         tarFile = 'Target/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text())
         modFile = 'Model/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text())
+        self.ui.analyzeStatus.setText("Status: Inversion Process")
+        time.sleep(1)
         try:
             subprocess.check_call(['./RunDinver.sh', paramFile, tarFile, self.ui.iteration.text(), modFile])
         except:
