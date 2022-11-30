@@ -294,11 +294,14 @@ class MyApp(QMainWindow):
             if time.time() - now > totalTime:
                 break
             self.ui.progressBar.setValue(int((time.time() - now)/totalTime*100))
+            print(time.time())
             time.sleep(1)
 
     def onFinishedTest(self):
         self.thread.quit()
         self.thread.wait()
+        self.ui.progressBar.setValue(100)
+        self.ui.progressBar.setFormat('Testing Finished')
         dfTemp = pd.read_csv('test_temp_data.csv')
         time = dfTemp['Time (s)']
         self.ui.Wave1.clear()
