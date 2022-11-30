@@ -581,10 +581,9 @@ class MyApp(QMainWindow):
         c = np.arange(1, numColor + 1)
 
         norm = mpl.colors.Normalize(vmin=misfitRange[0], vmax=misfitRange[1])
-        cmap = mpl.cm.ScalarMappable(norm=norm, cmap=mpl.cm.Reds)
+        cmap = mpl.cm.ScalarMappable(norm=norm, cmap=mpl.cm.Reds_r)
         cmap.set_array([])
         #reverse the color map
-        cmap.set_clim(misfitRange[1], misfitRange[0])
         #cmap to 0-255
 
         for idx, i in reversed(list(enumerate(misfits))):
