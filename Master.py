@@ -25,6 +25,7 @@ from gVseismModule import gVseismModule
 
 class Worker(QObject):
     def __init__(self, gain, samplingRate, scanMode):
+        super().__init__()
         self.finished = pyqtSignal()
         self.progress = pyqtSignal(int)
         self.gV = gVseismModule(gain, samplingRate, scanMode)
