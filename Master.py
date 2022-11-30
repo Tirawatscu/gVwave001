@@ -555,7 +555,7 @@ class MyApp(QMainWindow):
         
         #Loop to show elapsed time
         now = time.time()
-        while self.process:
+        while True:
             if self.process == False:
                 break
             elapsed = time.time() - now
