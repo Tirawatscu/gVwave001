@@ -544,14 +544,13 @@ class MyApp(QMainWindow):
 
         def stopElapse():
             self.process = False
-
-        self.analThread = QThread()
+        self.thread = QThread()
         self.analWorker = analysisThread(paramFile, tarFile, self.ui.iteration.text(), modFile)
-        self.analWorker.moveToThread(self.analThread)
-        self.analThread.started.connect(self.analWorker.run)
+        self.analWorker.moveToThread(self.thread)
+        self.thread.started.connect(self.analWorker.run)
         self.analWorker.finished.connect(self.onFinishAnal)
         self.analWorker.finished.connect(stopElapse)
-        self.analThread.start()
+        self.thread.start()
         self.process = True
         
         #Loop to show elapsed time
@@ -562,8 +561,8 @@ class MyApp(QMainWindow):
             time.sleep(5)
 
     def onFinishAnal(self):
-        self.analThread.quit()
-        self.analThread.wait()
+        self.thread.quit()
+        self.thread.wait()
         #Plot Inversion result
         fname = 'Model/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text() + '.txt')
         suite = swprepost.GroundModelSuite.from_geopsy(fname=fname, nmodels="all")
