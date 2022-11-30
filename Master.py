@@ -276,7 +276,6 @@ class MyApp(QMainWindow):
         #self.gV.runTest()
         #subprocess.call(['sudo python gVseism/runTest.py 2000'], shell=True)
         #read test_temp_data.csv and plot to Wave1_1
-        gv = gVseismModule('1', '3750', 'DIFFERENTIAL', 1000, "test_temp_data.csv")
         self.thread = QThread()
         self.worker = Worker('1', '3750', 'DIFFERENTIAL', 1000, "test_temp_data.csv")
         self.worker.moveToThread(self.thread)
@@ -295,7 +294,7 @@ class MyApp(QMainWindow):
             if time.time() - now > totalTime:
                 break
             self.ui.progressBar.setValue(int((time.time() - now)/totalTime*100))
-            time.sleep(0.1)
+            time.sleep(1)
 
     def onFinishedTest(self):
         self.thread.quit()
@@ -348,7 +347,7 @@ class MyApp(QMainWindow):
             if time.time() - now > totalTime:
                 break
             self.ui.progressBar.setValue(int((time.time() - now)/totalTime*100))
-            time.sleep(0.1)
+            time.sleep(1)
 
 
     #--------------- After Recording ----------------#
