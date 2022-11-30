@@ -35,8 +35,8 @@ class Worker(QObject):
         self.gV.runTest()
         self.finished.emit()
 
-    def record(self):
-        self.gV.recordWave(7680, '/Storage/work02/work02_008.csv')
+    def record(self, sample, filePath):
+        self.gV.recordWave(sample, filePath)
         self.finished.emit()
 
 class MyApp(QMainWindow):
@@ -327,8 +327,7 @@ class MyApp(QMainWindow):
         self.thread = QThread()
         self.worker = Worker('1', '3750', 'DIFFERENTIAL')
         self.worker.moveToThread(self.thread)
-        #self.thread.started.connect(lambda: self.worker.record(int(self.ui.Sample.text()), self.filePath))
-        self.thread.started.connect(self.worker.run)
+        self.thread.started.connect(lambda: self.worker.record(int(self.ui.Sample.text()), self.filePath))
         self.worker.finished.connect(self.afterRecord)
         self.thread.start()
 
@@ -354,6 +353,8 @@ class MyApp(QMainWindow):
 
     #--------------- After Recording ----------------#
     def afterRecord(self):
+        self.thread.quit()
+        self.thread.wait()
         self.ui.tableWidget.clear()
         self.ui.tableWidget.setHorizontalHeaderLabels(['Event'])
         # Load json file
