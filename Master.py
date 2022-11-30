@@ -546,7 +546,7 @@ class MyApp(QMainWindow):
         c = np.arange(1, numColor + 1)
 
         norm = mpl.colors.Normalize(vmin=misfitRange[0], vmax=misfitRange[1])
-        cmap = mpl.cm.ScalarMappable(norm=norm, cmap=mpl.cm.reds)
+        cmap = mpl.cm.ScalarMappable(norm=norm, cmap=mpl.cm.Reds)
         cmap.set_array([])
         
         #cmap to 0-255
