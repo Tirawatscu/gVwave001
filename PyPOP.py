@@ -29,7 +29,7 @@ class POP():
 
     def makepop(self):
         TL = self.data.shape[0]
-        segment = int((TL-self.length)/self.length*2)
+        segment = int(np.ceil((TL-self.length)/self.length*2))
         KR = np.zeros((int(self.length/2), segment))
         for idx, i in enumerate(np.arange(0, TL-self.length, self.length/2, dtype=int)):
            P = unwrap(angle(fft.fft(self.data[i:i+self.length,:]* np.hanning(self.length).reshape(self.length,1),axis=0)),axis=1)[0:int(self.length/2)]
