@@ -294,8 +294,7 @@ class MyApp(QMainWindow):
             if time.time() - now > totalTime:
                 break
             self.ui.progressBar.setValue(int((time.time() - now)/totalTime*100))
-            print(time.time())
-            time.sleep(1)
+            time.sleep(2)
 
     def onFinishedTest(self):
         self.thread.quit()
@@ -357,6 +356,8 @@ class MyApp(QMainWindow):
     def afterRecord(self):
         self.thread.quit()
         self.thread.wait()
+        self.ui.progressBar.setValue(100)
+        self.ui.progressBar.setFormat('Recording Finished')
         self.ui.tableWidget.clear()
         self.ui.tableWidget.setHorizontalHeaderLabels(['Event'])
         # Load json file
