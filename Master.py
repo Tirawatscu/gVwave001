@@ -547,20 +547,8 @@ class MyApp(QMainWindow):
         self.analWorker.moveToThread(self.thread)
         self.thread.started.connect(self.analWorker.run)
         self.analWorker.finished.connect(self.onFinishAnal)
-        self.analWorker.finished.connect(stopElapse)
         self.thread.start()
-        self.process = True
-        
-        #Loop to show elapsed time
-        now = time.time()
-        while True:
-            if self.process == False:
-                break
-            elapsed = time.time() - now
-            self.ui.analyzeStatus.setText("Status: Inversion Process - Elapsed Time: "+str(elapsed))
-            time.sleep(5)
-    def stopElapse(self):
-        self.process = False
+        self.ui.analyzeStatus.setText("Status: Inversion Processing")
 
     def onFinishAnal(self):
         self.thread.quit()
