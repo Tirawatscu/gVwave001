@@ -542,8 +542,6 @@ class MyApp(QMainWindow):
         except:
             os.system(f'cmd /c "RunDinver.bat {paramFile} {tarFile} {int(self.ui.iteration.text())} {modFile}"')'''
 
-        def stopElapse():
-            self.process = False
         self.thread = QThread()
         self.analWorker = analysisThread(paramFile, tarFile, self.ui.iteration.text(), modFile)
         self.analWorker.moveToThread(self.thread)
@@ -561,6 +559,8 @@ class MyApp(QMainWindow):
             elapsed = time.time() - now
             self.ui.analyzeStatus.setText("Status: Inversion Process - Elapsed Time: "+str(elapsed))
             time.sleep(5)
+    def stopElapse(self):
+        self.process = False
 
     def onFinishAnal(self):
         self.thread.quit()
