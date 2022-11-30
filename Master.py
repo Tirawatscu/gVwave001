@@ -26,17 +26,17 @@ from gVseismModule import gVseismModule
 class Worker(QObject):
     finished = pyqtSignal()
     progress = pyqtSignal(int)
-    def __init__(self, gain, samplingRate, scanMode):
+    def __init__(self, gain, samplingRate, scanMode, sample, filePath):
         super().__init__()
-        self.gV = gVseismModule(gain, samplingRate, scanMode)
+        self.gV = gVseismModule(gain, samplingRate, scanMode, sample, filePath)
 
     def run(self):
         #subprocess.call(['sudo python gVseism/runTest.py 2000'], shell=True)
         self.gV.runTest()
         self.finished.emit()
 
-    def record(self, sample, filePath):
-        self.gV.recordWave(sample, filePath)
+    def record(self):
+        self.gV.recordWave()
         self.finished.emit()
 
 class MyApp(QMainWindow):
@@ -278,7 +278,7 @@ class MyApp(QMainWindow):
         #read test_temp_data.csv and plot to Wave1_1
 
         self.thread = QThread()
-        self.worker = Worker('1', '3750', 'DIFFERENTIAL')
+        self.worker = Worker('1', '3750', 'DIFFERENTIAL', 1000, "test_temp_data.csv")
         self.worker.moveToThread(self.thread)
         self.thread.started.connect(self.worker.run)
         self.worker.finished.connect(self.onFinishedTest)
@@ -325,9 +325,9 @@ class MyApp(QMainWindow):
         self.filePath = os.path.join(self.storagePath, self.Station, self.fileName)
 
         self.thread = QThread()
-        self.worker = Worker('1', '3750', 'DIFFERENTIAL')
+        self.worker = Worker('1', '3750', 'DIFFERENTIAL', int(self.ui.Sample.text()), self.filePath)
         self.worker.moveToThread(self.thread)
-        self.thread.started.connect(lambda: self.worker.record(int(self.ui.Sample.text()), self.filePath))
+        self.thread.started.connect(self.worker.record)
         self.worker.finished.connect(self.afterRecord)
         self.thread.start()
 
