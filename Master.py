@@ -39,7 +39,7 @@ class Worker(QObject):
         self.gV.recordWave()
         self.finished.emit()
 
-class analysisThread(QThread):
+class analysisThread(QObject):
     finished = pyqtSignal()
     progress = pyqtSignal(int)
     def __init__(self, param, target, iter, model):
