@@ -50,10 +50,7 @@ class analysisThread(QObject):
         self.model = model
 
     def run(self):
-        try:
-            subprocess.check_call(['./RunDinver.sh', self.param, self.target, self.iter, self.model])
-        except:
-            os.system(f'cmd /c "RunDinver.bat {self.param} {self.target} {self.iter} {self.model}"')
+        subprocess.check_call(['./RunDinver.sh', self.param, self.target, self.iter, self.model])
         self.finished.emit()
 
 class MyApp(QMainWindow):
@@ -546,7 +543,7 @@ class MyApp(QMainWindow):
             os.system(f'cmd /c "RunDinver.bat {paramFile} {tarFile} {int(self.ui.iteration.text())} {modFile}"')'''
 
         self.analThread = QThread()
-        self.analWorker = analysisThread(paramFile, tarFile, int(self.ui.iteration.text()), modFile)
+        self.analWorker = analysisThread(paramFile, tarFile, self.ui.iteration.text(), modFile)
         self.analWorker.moveToThread(self.analThread)
         self.analThread.started.connect(self.analWorker.run)
         self.analWorker.finished.connect(self.onFinishAnal)
