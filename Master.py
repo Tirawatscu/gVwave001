@@ -21,14 +21,17 @@ import pyqtgraph as pg
 import subprocess
 import time
 import threading
-#from gVseismModule import gVseismModule
+from gVseismModule import gVseismModule
 
 class Worker(QObject):
-    finished = pyqtSignal()
-    progress = pyqtSignal(int)
+    def __init__(self, gain, samplingRate, scanMode):
+        self.finished = pyqtSignal()
+        self.progress = pyqtSignal(int)
+        self.gV = gVseismModule(gain, samplingRate, scanMode)
 
     def run(self):
-        subprocess.call(['sudo python gVseism/runTest.py 2000'], shell=True)
+        #subprocess.call(['sudo python gVseism/runTest.py 2000'], shell=True)
+        self.gV.runTest()
         self.finished.emit()
 
 class MyApp(QMainWindow):
@@ -116,7 +119,6 @@ class MyApp(QMainWindow):
         self.storagePath = os.path.join(os.getcwd(), 'Storage')
         self.workspacePath = os.path.join(os.getcwd(), 'Workspace')
 
-        #self.gV = gVseismModule('1', '3750', "DIFFERENTIAL")
 
     def prevLogger(self):
         self.ui.tabWidget.setCurrentIndex(1)
@@ -272,15 +274,31 @@ class MyApp(QMainWindow):
 
         self.thread = QThread()
         # Step 3: Create a worker object
-        self.worker = Worker()
+        self.worker = Worker('1', '3750', 'DIFFERNTIAL')
         # Step 4: Move worker to the thread
         self.worker.moveToThread(self.thread)
         # Step 5: Connect signals and slots
         self.thread.started.connect(self.worker.run)
-        self.worker.finished.connect(self.thread.quit)
+        self.worker.finished.connect(self.onFinished)
         # Step 6: Start the thread
         self.thread.start()
 
+        #Progress Bar Test in 1000 Samples with 256 Hz
+        self.ui.progressBar.setValue(0)
+        self.ui.progressBar.setMaximum(100)
+        self.ui.progressBar.setMinimum(0)
+        self.ui.progressBar.setFormat('Running Test')
+        totalTime = 1000/256
+        now = time.time()
+        while True:
+            if time.time() - now > totalTime:
+                break
+            self.ui.progressBar.setValue(int((time.time() - now)/totalTime*100))
+            time.sleep(0.01)
+
+    def onFinished(self):
+        self.thread.quit()
+        self.thread.wait()
         dfTemp = pd.read_csv('test_temp_data.csv')
         time = dfTemp['Time (s)']
         self.ui.Wave1.clear()
