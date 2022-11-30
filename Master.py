@@ -274,7 +274,7 @@ class MyApp(QMainWindow):
 
         self.thread = QThread()
         # Step 3: Create a worker object
-        self.worker = Worker('1', '3750', 'DIFFERNTIAL')
+        self.worker = Worker('1', '3750', 'DIFFERENTIAL')
         # Step 4: Move worker to the thread
         self.worker.moveToThread(self.thread)
         # Step 5: Connect signals and slots
