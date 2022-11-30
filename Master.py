@@ -2,7 +2,7 @@
 from multiprocessing import Event
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QDialog, QTableWidgetItem
 from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSlot, QThread, pyqtSignal, QObject
 #import window.py class
 from window import Ui_MainWindow
 from projectDialog import Ui_Dialog
@@ -21,7 +21,15 @@ import pyqtgraph as pg
 import subprocess
 import time
 import threading
-from gVseismModule import gVseismModule
+#from gVseismModule import gVseismModule
+
+class Worker(QObject):
+    finished = pyqtSignal()
+    progress = pyqtSignal(int)
+
+    def run(self):
+        subprocess.call(['sudo python gVseism/runTest.py 2000'], shell=True)
+        self.finished.emit()
 
 class MyApp(QMainWindow):
     def __init__(self, parent=None):
@@ -108,7 +116,7 @@ class MyApp(QMainWindow):
         self.storagePath = os.path.join(os.getcwd(), 'Storage')
         self.workspacePath = os.path.join(os.getcwd(), 'Workspace')
 
-        self.gV = gVseismModule('1', '3750', "DIFFERENTIAL")
+        #self.gV = gVseismModule('1', '3750', "DIFFERENTIAL")
 
     def prevLogger(self):
         self.ui.tabWidget.setCurrentIndex(1)
@@ -258,9 +266,21 @@ class MyApp(QMainWindow):
     #-------------------------------------------------#
 
     def runTest(self):
-        self.gV.runTest()
+        #self.gV.runTest()
         #subprocess.call(['sudo python gVseism/runTest.py 2000'], shell=True)
         #read test_temp_data.csv and plot to Wave1_1
+
+        thread = QThread()
+        # Step 3: Create a worker object
+        self.worker = Worker()
+        # Step 4: Move worker to the thread
+        self.worker.moveToThread(thread)
+        # Step 5: Connect signals and slots
+        thread.started.connect(self.worker.run)
+        self.worker.finished.connect(thread.quit)
+        # Step 6: Start the thread
+        thread.start()
+
         dfTemp = pd.read_csv('test_temp_data.csv')
         time = dfTemp['Time (s)']
         self.ui.Wave1.clear()

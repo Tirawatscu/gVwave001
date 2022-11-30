@@ -31,7 +31,6 @@ class gVseism():
                 f.write(",Ch {}".format(i))
             f.write('\n')
 
-
         data = []
         GPIO.add_event_detect(self.PIN_DRDY, GPIO.FALLING)
         while True:

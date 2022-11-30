@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1035</width>
-    <height>775</height>
+    <width>1076</width>
+    <height>765</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -256,6 +256,21 @@
            <string>Test Panel</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_5">
+           <item row="0" column="0">
+            <widget class="PlotWidget" name="Wave1" native="true">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <family>Sarabun</family>
+              </font>
+             </property>
+            </widget>
+           </item>
            <item row="2" column="0">
             <widget class="PlotWidget" name="Wave3" native="true">
              <property name="sizePolicy">
@@ -286,22 +301,7 @@
              </property>
             </widget>
            </item>
-           <item row="0" column="0">
-            <widget class="PlotWidget" name="Wave1" native="true">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="font">
-              <font>
-               <family>Sarabun</family>
-              </font>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
+           <item row="4" column="0">
             <widget class="QPushButton" name="RunButton">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
@@ -316,6 +316,13 @@
              </property>
              <property name="text">
               <string>Run Test</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QProgressBar" name="progressBar">
+             <property name="value">
+              <number>24</number>
              </property>
             </widget>
            </item>
@@ -1282,7 +1289,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1035</width>
+     <width>1076</width>
      <height>24</height>
     </rect>
    </property>
