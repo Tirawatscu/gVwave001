@@ -133,6 +133,7 @@ class MyApp(QMainWindow):
         self.ui.lr.setEnabled(False)
         self.ui.dF.setEnabled(False)
         self.ui.reverseLayer.setChecked(True)
+        self.ui.progressBar.setFormat('Ready')
 
         #check folder Storage exist or not if not create it
         if not os.path.exists('Storage'):
@@ -266,11 +267,6 @@ class MyApp(QMainWindow):
             self.ui.ExistedModel.setEnabled(False)
 
 
-
-
-        
-        
-        
     #------------- Save Configuration ----------------#
     #-------------------------------------------------#
     def saveConfigJson(self, Station, id, Lat, Long, Radius, Duration, Sample):
@@ -373,7 +369,6 @@ class MyApp(QMainWindow):
                 break
             self.ui.progressBar.setValue(int((time.time() - now)/totalTime*100))
             time.sleep(1)
-
 
     #--------------- After Recording ----------------#
     def afterRecord(self):
@@ -591,7 +586,6 @@ class MyApp(QMainWindow):
         self.ui.densityProfile.invertY(True)
         self.ui.densityProfile.showGrid(x=True, y=True)
         
-
         self.ui.VsProfile_2.plot(median.vs2, median.depth, pen='r', linewidth=2)
         self.ui.VsProfile_2.setYRange(float(self.ui.pseudoDepth.text()), 0)
         self.ui.VsProfile_2.invertY(True)

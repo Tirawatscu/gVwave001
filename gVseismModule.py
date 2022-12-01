@@ -71,13 +71,20 @@ class gVseismModule():
         GPIO.add_event_detect(self.PIN_DRDY, GPIO.FALLING)
         while True:
             trig = time.time()
-            if trig - prevTime >= 1/256:
+            if trig - prevTime >= 1/128 and GPIO.event_detected(self.PIN_DRDY):
                 meanSampleRate += 1/(trig-prevTime)
                 timeStamp += trig - prevTime
                 prevTime = time.time()
+                pyadda.collectData(), 
+                pyadda.collectData(), 
+                pyadda.collectData(),
+                data.append([
+                        timeStamp, 
+                        pyadda.readAllChannelsVolts(4)[0], 
+                        pyadda.readAllChannelsVolts(4)[1], 
+                        pyadda.readAllChannelsVolts(4)[2],
+                        ])
                 pyadda.collectData()
-                volts = pyadda.readAllChannelsVolts(self.adcChannels)
-                data.append([timeStamp, volts[0], volts[1], volts[2]])
                 counter += 1
 
             if counter == self.sample:
