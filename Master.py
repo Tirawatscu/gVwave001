@@ -21,7 +21,7 @@ import pyqtgraph as pg
 import subprocess
 import time
 import threading
-from gVseismModule import gVseismModule
+#from gVseismModule import gVseismModule
 
 class Worker(QObject):
     finished = pyqtSignal()
@@ -136,14 +136,14 @@ class MyApp(QMainWindow):
         self.ui.progressBar.setFormat('Ready')
 
         #check folder Storage exist or not if not create it
-        if not os.path.exists('Storage'):
-            os.makedirs('Storage')
-        if not os.path.exists('Workspace'):
-            os.makedirs('Workspace')
+        if not os.path.exists(os.path.join(os.path.dirname(__file__), 'Storage')):
+            os.makedirs(os.path.join(os.path.dirname(__file__), 'Storage'))
+        if not os.path.exists(os.path.join(os.path.dirname(__file__), 'Workspace')):
+            os.makedirs(os.path.join(os.path.dirname(__file__), 'Workspace'))
         '''if not os.path.exists('Header'):
             os.makedirs('Header')'''
-        self.storagePath = os.path.join(os.getcwd(), 'Storage')
-        self.workspacePath = os.path.join(os.getcwd(), 'Workspace')
+        self.storagePath = os.path.join(os.path.dirname(__file__), 'Storage')
+        self.workspacePath = os.path.join(os.path.dirname(__file__), 'Workspace')
 
 
     def prevLogger(self):
