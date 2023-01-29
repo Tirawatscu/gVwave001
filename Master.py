@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QDialog, QTa
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, QThread, pyqtSignal, QObject
 #import window.py class
-from window import Ui_MainWindow
+from window import Ui_gVwave
 from projectDialog import Ui_Dialog
 import json
 import pandas as pd
@@ -56,7 +56,7 @@ class analysisThread(QObject):
 class MyApp(QMainWindow):
     def __init__(self, parent=None):
         super(MyApp, self).__init__(parent)
-        self.ui = Ui_MainWindow()
+        self.ui = Ui_gVwave()
         self.ui.setupUi(self)
         self.ui.Wave1.setBackground('w')
         self.ui.actionNew_Workspace.triggered.connect(self.menuFile)
