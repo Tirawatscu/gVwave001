@@ -260,7 +260,7 @@ class MyApp(QMainWindow):
             self.ui.Wave1_4.clear()
 
         #check model file exist
-        file = 'Model/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text() + '.txt')
+        file = '{}/Model/'.format(os.path.dirname(__file__))+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text() + '.txt')
         if os.path.isfile(file):
             self.ui.ExistedModel.setEnabled(True)
         else:
@@ -448,8 +448,8 @@ class MyApp(QMainWindow):
     #--------------------- Analyzation ----------------#
     def analFunction(self):
         #check Target folder exist if not create
-        if not os.path.exists('Target/'+self.ui.Station_in.text()):
-            os.makedirs('Target/'+self.ui.Station_in.text())
+        if not os.path.exists('{}/Target/'.format(os.path.dirname(__file__))+self.ui.Station_in.text()):
+            os.makedirs('{}/Target/'.format(os.path.dirname(__file__))+self.ui.Station_in.text())
         self.ui.tabWidget.setCurrentIndex(3)
         #set 2 decimal place
         self.ui.maxFreq.setText(str(self.maxFreq))
@@ -463,7 +463,7 @@ class MyApp(QMainWindow):
         newStd = np.interp(newFreq, self.analFreq, self.std)
 
         tar = swprepost.Target(frequency=newFreq, velocity=newC, velstd=newStd)
-        tar.to_target('Target/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text()), version="3.4.2")
+        tar.to_target('{}/Target/'.format(os.path.dirname(__file__))+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text()), version="3.4.2")
         
         minPseudoDepth = np.min(tar.pseudo_depth())
         self.minPsedoVs = np.min(tar.pseudo_vs())*0.8
@@ -486,12 +486,12 @@ class MyApp(QMainWindow):
         self.ui.analyzeStatus.setText("Status: Parameterizing")
         time.sleep(1)
         #Check Model folder exist if not create
-        if not os.path.exists('Model/'+self.ui.Station_in.text()):
-            os.makedirs('Model/'+self.ui.Station_in.text())
+        if not os.path.exists('{}/Model/'.format(os.path.dirname(__file__))+self.ui.Station_in.text()):
+            os.makedirs('{}/Model/'.format(os.path.dirname(__file__))+self.ui.Station_in.text())
 
         #Check if Param  folder exist
-        if not os.path.exists('Param/'+self.ui.Station_in.text()):
-            os.makedirs('Param/'+self.ui.Station_in.text())
+        if not os.path.exists('{}/Param/'.format(os.path.dirname(__file__))+self.ui.Station_in.text()):
+            os.makedirs('{}/Param/'.format(os.path.dirname(__file__))+self.ui.Station_in.text())
 
         #Construct parameter
         if self.paraMethod == "Fixed-Thickness Layer":
