@@ -185,14 +185,14 @@ class MyApp(QMainWindow):
             self.ui.ID_in.setEnabled(False)
             saveConfigState = False
         if  saveConfigState:
-            if not os.path.exists('Storage/'+self.Station):
-                os.makedirs('Storage/'+self.Station)
-                with open('Workspace/'+self.Station+'.json', 'w') as f:
+            if not os.path.exists(self.storagePath+self.Station):
+                os.makedirs(self.storagePath+self.Station)
+                with open(self.workspacePath+self.Station+'.json', 'w') as f:
                     json.dump([], f, indent=4)
                 self.ui.ID_in.setText('000')
 
     def getfile(self):
-        fname = QFileDialog.getOpenFileName(self, "Import json", "./Workspace/", "JSON Files (*.json)")[0]
+        fname = QFileDialog.getOpenFileName(self, "Import json", self.workspacePath, "JSON Files (*.json)")[0]
         self.ui.Station_in.setText(fname.split('/')[-1].split('.')[0])
         if fname != '':
             self.ui.Lat_in.setEnabled(True)
@@ -270,7 +270,7 @@ class MyApp(QMainWindow):
     #------------- Save Configuration ----------------#
     #-------------------------------------------------#
     def saveConfigJson(self, Station, id, Lat, Long, Radius, Duration, Sample):
-        with open('Workspace/'+Station+'.json') as f:
+        with open(self.workspacePath+Station+'.json') as f:
             data = json.load(f)
             save = {
             'Station' : Station,
@@ -283,7 +283,7 @@ class MyApp(QMainWindow):
         }
             data.append(save)
     
-        with open('Workspace/'+self.Station+'.json', 'w') as outfile:
+        with open(self.workspacePath+self.Station+'.json', 'w') as outfile:
             json.dump(data, outfile, indent=4)
         print("Save Config")
     #-------------------------------------------------#
@@ -336,7 +336,7 @@ class MyApp(QMainWindow):
     def startFunction(self):
         self.UpdateConfig()
 
-        with open('Workspace/'+self.Station+'.json') as f:
+        with open(self.workspacePath+self.Station+'.json') as f:
             data = json.load(f)
 
         self.saveConfigJson(self.Station, 0, float(self.Lat), float(self.Long), float(self.Radius), float(self.timeDuration[self.ui.Duration_in.currentText()]), float(self.ui.Sample.text()))
@@ -379,7 +379,7 @@ class MyApp(QMainWindow):
         self.ui.tableWidget.clear()
         self.ui.tableWidget.setHorizontalHeaderLabels(['Event'])
         # Load json file
-        with open('Workspace/'+self.Station+'.json', 'r') as f:
+        with open(self.workspacePath+self.Station+'.json', 'r') as f:
             self.data = json.load(f)
         self.ui.ID_in.setText("{0:03}".format(len(self.data)))
         #delete all row in table
