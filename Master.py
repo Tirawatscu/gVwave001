@@ -185,8 +185,8 @@ class MyApp(QMainWindow):
             self.ui.ID_in.setEnabled(False)
             saveConfigState = False
         if  saveConfigState:
-            if not os.path.exists(os.path.join(self.storagePath+self.Station)):
-                os.makedirs(os.path.join(self.storagePath+self.Station))
+            if not os.path.exists(os.path.join(self.storagePath, self.Station)):
+                os.makedirs(os.path.join(self.storagePath, self.Station))
                 with open(self.workspacePath+"/"+self.Station+'.json', 'w') as f:
                     json.dump([], f, indent=4)
                 self.ui.ID_in.setText('000')
