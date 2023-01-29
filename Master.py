@@ -50,7 +50,7 @@ class analysisThread(QObject):
         self.model = model
 
     def run(self):
-        subprocess.check_call(['./{}/RunDinver.sh'.format(os.path.dirname(__file__)), self.param, self.target, self.iter, self.model])
+        subprocess.check_call(['.{}/RunDinver.sh'.format(os.path.dirname(__file__)), self.param, self.target, self.iter, self.model])
         self.finished.emit()
 
 class MyApp(QMainWindow):
