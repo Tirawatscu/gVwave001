@@ -50,7 +50,7 @@ class analysisThread(QObject):
         self.model = model
 
     def run(self):
-        subprocess.check_call(['./RunDinver.sh', self.param, self.target, self.iter, self.model])
+        subprocess.check_call(['./{}/RunDinver.sh'.format(os.path.dirname(__file__)), self.param, self.target, self.iter, self.model])
         self.finished.emit()
 
 class MyApp(QMainWindow):
@@ -524,12 +524,12 @@ class MyApp(QMainWindow):
                 par_rev = self.par_rev
             )
             param = swprepost.Parameterization(vp = param_vp, pr = param_pr, vs = param_vs, rh = param_rho)
-            param.to_param('Param/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text()), version="3.4.2")
+            param.to_param('{}/Param/'.format(os.path.dirname(__file__))+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text()), version="3.4.2")
 
         #Inversion
-        paramFile = 'Param/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text())
-        tarFile = 'Target/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text())
-        modFile = 'Model/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text())
+        paramFile = '{}/Param/'.format(os.path.dirname(__file__))+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text())
+        tarFile = '{}/Target/'.format(os.path.dirname(__file__))+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text())
+        modFile = '{}/Model/'.format(os.path.dirname(__file__))+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text())
         self.ui.analyzeStatus.setText("Status: Inversion Process")
 
         '''try:
@@ -549,7 +549,7 @@ class MyApp(QMainWindow):
         self.thread.quit()
         self.thread.wait()
         #Plot Inversion result
-        fname = 'Model/'+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text() + '.txt')
+        fname = '{}/Model/'.format(os.path.dirname(__file__))+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text() + '.txt')
         suite = swprepost.GroundModelSuite.from_geopsy(fname=fname, nmodels="all")
         median = suite.median(nbest=50)
         
