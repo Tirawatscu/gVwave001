@@ -58,6 +58,7 @@ class MyApp(QMainWindow):
         super(MyApp, self).__init__(parent)
         self.ui = Ui_gVwave()
         self.ui.setupUi(self)
+        self.showFullScreen()
         self.ui.Wave1.setBackground('w')
         self.ui.actionNew_Workspace.triggered.connect(self.menuFile)
         self.ui.actionOpen.triggered.connect(self.getfile)
