@@ -21,7 +21,7 @@ import pyqtgraph as pg
 import subprocess
 import time
 import threading
-from gVseismModule import gVseismModule
+#from gVseismModule import gVseismModule
 
 class Worker(QObject):
     finished = pyqtSignal()
