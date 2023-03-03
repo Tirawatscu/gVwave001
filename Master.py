@@ -12,7 +12,7 @@ import numpy as np
 #import other modules
 import os
 import sys
-from PyPOP import POP
+from PyPOPTemp import POP
 import pyqtgraph as pg
 import swprepost
 import matplotlib.pyplot as plt
@@ -21,7 +21,7 @@ import pyqtgraph as pg
 import subprocess
 import time
 import threading
-#from gVseismModule import gVseismModule
+from gVseismModule import gVseismModule
 
 class Worker(QObject):
     finished = pyqtSignal()
@@ -90,7 +90,7 @@ class MyApp(QMainWindow):
         self.ui.Lat_in.setText('0')
         self.ui.Long_in.setText('0')
         self.ui.Radius_in.setText('3')
-        self.ui.Sample.setText(str(self.timeDuration[self.ui.Duration_in.currentText()]*256))
+        self.ui.Sample.setText(str(self.timeDuration[self.ui.Duration_in.currentText()]*128))
         #Disable all buttons and input text box
         self.ui.Station_in.setEnabled(False)
         self.ui.Lat_in.setEnabled(False)
@@ -152,7 +152,7 @@ class MyApp(QMainWindow):
 
 
     def updateSample(self):
-        self.ui.Sample.setText(str(self.timeDuration[self.ui.Duration_in.currentText()]*256))
+        self.ui.Sample.setText(str(self.timeDuration[self.ui.Duration_in.currentText()]*128))
 
     def UpdateConfig(self):
         self.Station = self.ui.Station_in.text()
@@ -243,7 +243,7 @@ class MyApp(QMainWindow):
             #Load data from .csv file without header using pandas
             self.df = pd.read_csv(self.filePath)
             print(self.df)
-            self.Freq = 256
+            self.Freq = 128
             self.time = np.arange(0, int(len(self.df)/self.Freq), 1/self.Freq)
             self.ui.Wave1_2.clear()
             self.ui.Wave1_2.plot(self.time, self.df['Ch 1'], pen='r')
@@ -303,12 +303,12 @@ class MyApp(QMainWindow):
         self.worker.finished.connect(self.onFinishedTest)
         self.thread.start()
 
-        #Progress Bar Test in 1000 Samples with 256 Hz
+        #Progress Bar Test in 1000 Samples with 128 Hz
         self.ui.progressBar.setValue(0)
         self.ui.progressBar.setMaximum(100)
         self.ui.progressBar.setMinimum(0)
         self.ui.progressBar.setFormat('Running Test')
-        totalTime = 1000/256
+        totalTime = 1000/128
         now = time.time()
         while True:
             if time.time() - now > totalTime:
@@ -363,7 +363,7 @@ class MyApp(QMainWindow):
         self.ui.progressBar.setMaximum(100)
         self.ui.progressBar.setMinimum(0)
         self.ui.progressBar.setFormat('Recording')
-        totalTime = int(self.ui.Sample.text())/256
+        totalTime = int(self.ui.Sample.text())/128
         now = time.time()
         while True:
             if time.time() - now > totalTime:
