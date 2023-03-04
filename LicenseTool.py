@@ -41,7 +41,7 @@ def check_key(key):
     serial = subprocess.run(["cat", "/sys/firmware/devicetree/base/serial-number"], stdout=subprocess.PIPE, universal_newlines=True).stdout.strip().split("\n")[-1].split(":")[-1].strip()
     #print(f"Serial number: {serial}")
     # Decode the key and compare it to the serial number
-    decoded = decode(key, "IgMxIyEjMyQhNCMi")
+    decoded = decode(key, "Q1VTQlVEQ1UGRwBCEQQAEGU=")
     if decoded == serial:
         return True
         #print("This code is running on the correct Raspberry Pi.")
