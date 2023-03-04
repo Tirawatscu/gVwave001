@@ -65,5 +65,6 @@ password = "secret"
 encoded = encode(serial, password)
 #print(f"Encoded serial number: {encoded}")'''
 
-print(decode("eVd9SHlJdVooTDReLCIuCw==", "IgMxIyEjMyQhNCMi"))
+print(decode("eVd9SHlJdVooTDReLCIuC0k=", "IgMxIyEjMyQhNCMi"))
 print(encode("00000000e5e6bacb", "IgMxIyEjMyQhNCMi"))
+
