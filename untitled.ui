@@ -575,7 +575,7 @@
              <widget class="QLineEdit" name="LicenseKey"/>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton">
+             <widget class="QPushButton" name="Activation">
               <property name="text">
                <string>Activate</string>
               </property>
