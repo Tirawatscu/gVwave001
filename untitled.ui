@@ -572,7 +572,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit"/>
+             <widget class="QLineEdit" name="LicenseKey"/>
             </item>
             <item>
              <widget class="QPushButton" name="pushButton">

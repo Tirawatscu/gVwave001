@@ -21,7 +21,8 @@ import pyqtgraph as pg
 import subprocess
 import time
 import threading
-#from gVseismModule import gVseismModule
+import LicenseTool as LT
+from gVseismModule import gVseismModule
 
 class Worker(QObject):
     finished = pyqtSignal()
@@ -100,6 +101,7 @@ class MyApp(QMainWindow):
         self.ui.Duration_in.setEnabled(False)
         self.ui.ID_in.setEnabled(False)
         self.ui.Sample.setEnabled(False)
+        self.ui.menuFile.setEnabled(False)
         #Set callback lable (Text, Combobox etc. here)
         self.ui.Duration_in.currentTextChanged.connect(self.updateSample)
         self.ui.StartButton.clicked.connect(self.startFunction)
@@ -145,11 +147,18 @@ class MyApp(QMainWindow):
             os.makedirs('Header')'''
         self.storagePath = os.path.join(os.path.dirname(__file__), 'Storage')
         self.workspacePath = os.path.join(os.path.dirname(__file__), 'Workspace')
-
-
+        self.ui.LicenseKey.setText('IgMxIyEjMyQhNCMi')
+        
+    def checkLicense(self):
+        self.licenseKey = self.ui.LicenseKey.text()   
+        if LT.check_key(self.licenseKey):
+            self.ui.menuFile.setEnabled(True)
+        else:
+            self.ui.progressBar.setFormat('License key is not valid')
+            self.ui.progressBar.setValue(0)
+    
     def prevLogger(self):
         self.ui.tabWidget.setCurrentIndex(1)
-
 
     def updateSample(self):
         self.ui.Sample.setText(str(self.timeDuration[self.ui.Duration_in.currentText()]*128))
