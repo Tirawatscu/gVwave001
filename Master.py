@@ -147,7 +147,7 @@ class MyApp(QMainWindow):
             os.makedirs('Header')'''
         self.storagePath = os.path.join(os.path.dirname(__file__), 'Storage')
         self.workspacePath = os.path.join(os.path.dirname(__file__), 'Workspace')
-        self.ui.LicenseKey.setText('IgMxIyEjMyQhNCMi')
+        self.ui.LicenseKey.setText('Q1VTQlVEQ1UGRwBCEQQAEGU=')
         self.ui.Activation.clicked.connect(self.checkLicense)
         
     def checkLicense(self):
