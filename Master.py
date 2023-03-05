@@ -497,8 +497,8 @@ class MyApp(QMainWindow):
         self.ui.minXanal.setMaximum(int(self.ui.maxXDs.value())*100)
         self.ui.maxXanal.setMinimum(int(self.ui.minXDs.value())*100)
         self.ui.maxXanal.setMaximum(int(self.ui.maxXDs.value())*100)
-        self.ui.minXanal.setValue(int(self.minFreq*100))
-        self.ui.maxXanal.setValue(int(self.maxFreq*100))
+        #self.ui.minXanal.setValue(int(self.minFreq*100))
+        #self.ui.maxXanal.setValue(int(self.maxFreq*100))
         self.ui.dsGraph.setYRange(0, maxY)
         self.ui.dsGraph.setXRange(minX, maxX)
         
