@@ -492,15 +492,15 @@ class MyApp(QMainWindow):
         
     def adjustRangeDs(self):
         self.ui.maxXDs.setMinimum(int(self.ui.minXDs.value()))
+        self.ui.minXanal.setValue(int(self.minFreq*100))
+        self.ui.maxXanal.setValue(int(self.maxFreq*100))
         maxY = int(self.ui.maxYDs.value())
         minX = int(self.ui.minXDs.value())
         maxX = int(self.ui.maxXDs.value())
-        self.ui.minXanal.setMinimum(int(minX)*100)
-        self.ui.minXanal.setMaximum(int(maxX)*100)
+        self.ui.minXanal.setMinimum(0)
+        self.ui.minXanal.setMaximum(50)
         self.ui.maxXanal.setMinimum(int(self.ui.minXanal.value())*100)
-        self.ui.maxXanal.setMaximum(int(maxX)*100)
-        #self.ui.minXanal.setValue(int(self.minFreq*100))
-        #self.ui.maxXanal.setValue(int(self.maxFreq*100))
+        self.ui.maxXanal.setMaximum(50)
         self.ui.dsGraph.setYRange(0, maxY)
         self.ui.dsGraph.setXRange(minX, maxX)
         
