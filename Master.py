@@ -451,42 +451,44 @@ class MyApp(QMainWindow):
 
         data = np.array([self.df["Ch 1"],self.df["Ch 2"], self.df["Ch 3"]]).T
         pop1 = POP(data, [], [], float(self.ui.rad_Out.text()), self.Freq, 2048)
-        [F, C, C2, std] = pop1.makepop()
+        [self.F, self.C, C2, self.std] = pop1.makepop()
         #replace NAN with 0
-        C[np.isnan(C)] = 0
-        self.ui.dsGraph.plot(F, C, pen='r')
-        self.ui.dsGraph.plot(F, C2, pen='b')
+        self.C[np.isnan(self.C)] = 0
+        self.ui.dsGraph.plot(self.F, self.C, pen='r')
+        self.ui.dsGraph.plot(self.F, C2, pen='b')
         self.ui.dsGraph.setXRange(0, 20)
         self.ui.dsGraph.setYRange(0, 500)
         self.ui.dsGraph.setLabel('left', 'Phase velocity', units='m/s')
         self.ui.dsGraph.setLabel('bottom', 'Frequency', units='Hz')
         #plot error barpy
-        '''error = pg.ErrorBarItem(x=F, y=C, height=std, beam=0.1)
+        '''error = pg.ErrorBarItem(x=self.F, y=C, height=self., beam=0.1)
         self.ui.error = pg.ErrorBarItem(beam=0.5)
         # setting data to error bar item
-        error.setData(x=F, y=C, top=C+C*std, bottom=C-C*std)'''
+        error.setData(x=self.F, y=C, top=C+C*self., bottom=C-C*self.)'''
 
 
         #--------------- Finding Parameter ------------#
         #Find first index that C < C2
-        index = np.where(C[5:] < C2[5:])[0][0]
+        index = np.where(self.C[5:] < C2[5:])[0][0]
         index = int(index + np.round(0.1*index))
         #Find max Vs in C of range 0 to index
-        self.maxC = np.max(C[5:index])
-        self.minC = C[index]
-        self.maxFreq = F[index]
-        self.minFreq = F[np.argmax(C[5:index])]
+        self.maxC = np.max(self.C[5:index])
+        self.minC = self.C[index]
+        self.maxFreq = self.F[index]
+        self.minFreq = self.F[np.argmax(self.C[5:index])]
         #Find index of max Vs in C
-        maxC_index = np.where(C == self.maxC)[0][0]
+        maxC_index = np.where(self.C == self.maxC)[0][0]
         #Plot vertical line of max Vs and alias frequency and set alpha to 0.5
-        self.minFreqAnal = self.ui.dsGraph.plot([F[maxC_index], F[maxC_index]], [0, self.ui.maxYDs.value()], pen='g', alpha=0.5)
-        self.maxFreqAnal = self.ui.dsGraph.plot([F[index], F[index]], [0, self.ui.maxYDs.value()], pen='g', alpha=0.5)
+        self.minFreqAnal = self.ui.dsGraph.plot([self.F[maxC_index], self.F[maxC_index]], [0, self.ui.maxYDs.value()], pen='g', alpha=0.5)
+        self.maxFreqAnal = self.ui.dsGraph.plot([self.F[index], self.F[index]], [0, self.ui.maxYDs.value()], pen='g', alpha=0.5)
 
-        self.analFreq = np.ndarray.flatten((F[maxC_index: index]))
-        self.analC = np.ndarray.flatten((C[maxC_index: index]))
-        self.std = np.ndarray.flatten((std[maxC_index: index]))
-
+        self.analFreq = np.ndarray.flatten((self.F[maxC_index: index]))
+        self.analC = np.ndarray.flatten((self.C[maxC_index: index]))
+        self.analstd = np.ndarray.flatten((self.std[maxC_index: index]))
+        
         self.ui.dsGraph.setXRange(0, self.maxFreq+0.2*self.maxFreq)
+        self.ui.minXanal.setMaximum(self.maxFreq+0.2*self.maxFreq)
+        self.ui.maxXanal.setMaximum(self.maxFreq+0.2*self.maxFreq)
         
     def adjustRangeDs(self):
         self.ui.maxXDs.setMinimum(int(self.ui.minXDs.value()))
@@ -509,9 +511,17 @@ class MyApp(QMainWindow):
         self.maxFreqAnal = self.ui.dsGraph.plot([self.ui.maxXanal.value()/100, self.ui.maxXanal.value()/100], [0, self.ui.maxYDs.value()], pen='r', alpha=0.5)
         self.minFreq = self.ui.minXanal.value()/100
         self.maxFreq = self.ui.maxXanal.value()/100
+        # Finding index of min and max frequency
+        
         
     #--------------------- Analyzation ----------------#
     def analFunction(self):
+        # Finding index of min and max frequency
+        FminIndex = np.argmin(np.abs(self.F - self.minFreq))
+        FmaxIndex = np.argmin(np.abs(self.F - self.maxFreq))
+        self.analFreq = self.F[FminIndex:FmaxIndex].flatten()
+        self.analC = self.C[FminIndex:FmaxIndex].flatten()
+        self.analstd = self.std[FminIndex:FmaxIndex].flatten()
         #check Target folder exist if not create
         if not os.path.exists('{}/Target/'.format(os.path.dirname(__file__))+self.ui.Station_in.text()):
             os.makedirs('{}/Target/'.format(os.path.dirname(__file__))+self.ui.Station_in.text())
@@ -525,7 +535,7 @@ class MyApp(QMainWindow):
         print(len(self.analFreq))
         newFreq = np.linspace(self.analFreq[0], self.analFreq[-1], 20)
         newC = np.interp(newFreq, self.analFreq, self.analC)
-        newStd = np.interp(newFreq, self.analFreq, self.std)
+        newStd = np.interp(newFreq, self.analFreq, self.analstd)
 
         tar = swprepost.Target(frequency=newFreq, velocity=newC, velstd=newStd)
         tar.to_target('{}/Target/'.format(os.path.dirname(__file__))+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text()), version="3.4.2")
