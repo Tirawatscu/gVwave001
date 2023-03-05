@@ -54,17 +54,3 @@ def check_key(key):
         #os.system("killall -9 python") # kill all python process
 
 
-'''serial = "00000000e5e6bacb"
-password = "IgMxIyEjMyQhNCMi"
-encoded = encode(serial, password)
-print(f"Encoded serial number: {encoded}")
-
-serial = subprocess.run(["cat", "/sys/firmware/devicetree/base/serial-number"], stdout=subprocess.PIPE, universal_newlines=True).stdout.strip().split("\n")[-1].split(":")[-1].strip()
-#print(f"Serial number: {serial}")
-password = "secret"
-encoded = encode(serial, password)
-#print(f"Encoded serial number: {encoded}")'''
-
-print(decode("eVd9SHlJdVooTDReLCIuC0k=", "IgMxIyEjMyQhNCMi"))
-print(encode("00000000e5e6bacb", "IgMxIyEjMyQhNCMi"))
-

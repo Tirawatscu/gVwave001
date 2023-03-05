@@ -12,7 +12,7 @@ import numpy as np
 #import other modules
 import os
 import sys
-from PyPOP import POP
+#from PyPOP import POP
 import pyqtgraph as pg
 import swprepost
 import matplotlib.pyplot as plt
@@ -22,7 +22,7 @@ import subprocess
 import time
 import threading
 import LicenseTool as LT
-from gVseismModule import gVseismModule
+#from gVseismModule import gVseismModule
 
 class Worker(QObject):
     finished = pyqtSignal()
@@ -148,10 +148,33 @@ class MyApp(QMainWindow):
         self.storagePath = os.path.join(os.path.dirname(__file__), 'Storage')
         self.workspacePath = os.path.join(os.path.dirname(__file__), 'Workspace')
         self.ui.LicenseKey.setText('eVd9SHlJdVooTDReLCIuC0k=')
-        self.ui.Activation.clicked.connect(self.checkLicense)
+        self.ui.Activation.clicked.connect(self.submitLicense)
+        self.checkLicense()
         
     def checkLicense(self):
-        self.licenseKey = self.ui.LicenseKey.text()   
+        #check license key file exist or not
+        if os.path.exists(os.path.join(os.path.dirname(__file__), 'LicenseKey.txt')):
+            #read license key from file
+            with open(os.path.join(os.path.dirname(__file__), 'LicenseKey.txt'), 'r') as f:
+                self.licenseKey = f.read()
+                self.ui.LicenseKey.setText(self.licenseKey)
+                #check license key valid or not
+                if LT.check_key(self.licenseKey):
+                    self.ui.menuFile.setEnabled(True)
+                else:
+                    self.ui.progressBar.setFormat('License key is not valid')
+                    self.ui.progressBar.setValue(0)
+    
+    def submitLicense(self):
+        if not os.path.exists(os.path.join(os.path.dirname(__file__), 'LicenseKey.txt')):
+            with open(os.path.join(os.path.dirname(__file__), 'LicenseKey.txt'), 'w') as f:
+                f.write(self.ui.LicenseKey.text())
+                
+        else:
+            with open(os.path.join(os.path.dirname(__file__), 'LicenseKey.txt'), 'w') as f:
+                f.write(self.ui.LicenseKey.text())
+                
+        self.licenseKey = self.ui.LicenseKey.text()
         if LT.check_key(self.licenseKey):
             self.ui.menuFile.setEnabled(True)
         else:
