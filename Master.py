@@ -734,6 +734,9 @@ class MyApp(QMainWindow):
         for item in os.listdir(src_folder):
             srcitem = os.path.join(src_folder, item)
             destitem = os.path.join(dest_src_folder, item)
+            suite = swprepost.GroundModelSuite.from_geopsy(fname=srcitem, nmodels="all")
+            misfits = suite.misfits
+            destitem = os.path.join(dest_src_folder, item.split('.')[0] + f"_{np.min(misfits):.4f}" + ".txt")
             if not os.path.isdir(srcitem):
                 shutil.copy2(srcitem, destitem)
                 self.ui.analyzeStatus.setText("Status: Exporting to USB done")
