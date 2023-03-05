@@ -48,11 +48,11 @@ def check_key(password):
     # Decode the key and compare it to the serial number
     decoded = decode("eVd9SHlJdVooTDReLCIuC0k=", password)
     if decoded == serial:
+        print("This code is running on the correct Raspberry Pi.")
         return True
-        #print("This code is running on the correct Raspberry Pi.")
     else:
+        print("This code is not running on the correct Raspberry Pi.")
         return False
-        #print("This code is not running on the correct Raspberry Pi.")
         # Kill all processes or reboot the Raspberry Pi
         #os.system("sudo reboot") # reboot the system
         # or
