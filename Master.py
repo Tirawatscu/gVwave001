@@ -485,8 +485,8 @@ class MyApp(QMainWindow):
         self.ui.dsGraph.setXRange(0, self.maxFreq+0.2*self.maxFreq)
         self.ui.minXanal.setMaximum(int(self.maxFreq+0.2*self.maxFreq)*100)
         self.ui.maxXanal.setMaximum(int(self.maxFreq+0.2*self.maxFreq)*100)
-        self.ui.minXanal.setValue(int(self.minFreq*100))
-        self.ui.maxXanal.setValue(int(self.maxFreq*100))
+        #self.ui.minXanal.setValue(int(self.minFreq*100))
+        #self.ui.maxXanal.setValue(int(self.maxFreq*100))
         
     def adjustRangeDs(self):
         self.ui.maxXDs.setMinimum(int(self.ui.minXDs.value()))
@@ -623,7 +623,11 @@ class MyApp(QMainWindow):
         self.thread.wait()
         #Plot Inversion result
         fname = '{}/Model/'.format(os.path.dirname(__file__))+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text() + '.txt')
-        suite = swprepost.GroundModelSuite.from_geopsy(fname=fname, nmodels="all")
+        try:
+            suite = swprepost.GroundModelSuite.from_geopsy(fname=fname, nmodels="all")
+        except:
+            self.ui.analyzeStatus.setText("Status: Model not found for these parameters")
+            return
         median = suite.median(nbest=50)
         
 
