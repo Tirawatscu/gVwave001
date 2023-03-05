@@ -480,7 +480,7 @@ class MyApp(QMainWindow):
         maxC_index = np.where(self.C == self.maxC)[0][0]
         #Plot vertical line of max Vs and alias frequency and set alpha to 0.5
         self.minFreqAnal = self.ui.dsGraph.plot([self.F[maxC_index], self.F[maxC_index]], [0, self.ui.maxYDs.value()], pen='g', alpha=0.5)
-        self.maxFreqAnal = self.ui.dsGraph.plot([self.F[index], self.F[index]], [0, self.ui.maxYDs.value()], pen='g', alpha=0.5)
+        self.maxFreqAnal = self.ui.dsGraph.plot([self.F[index], self.F[index]], [0, self.ui.maxYDs.value()], pen='r', alpha=0.5)
 
         self.analFreq = np.ndarray.flatten((self.F[maxC_index: index]))
         self.analC = np.ndarray.flatten((self.C[maxC_index: index]))
@@ -508,7 +508,7 @@ class MyApp(QMainWindow):
         self.ui.dsGraph.removeItem(self.minFreqAnal)
         self.ui.dsGraph.removeItem(self.maxFreqAnal)
         self.minFreqAnal = self.ui.dsGraph.plot([self.ui.minXanal.value()/100, self.ui.minXanal.value()/100], [0, self.ui.maxYDs.value()], pen='g', alpha=0.5)
-        self.maxFreqAnal = self.ui.dsGraph.plot([self.ui.maxXanal.value()/100, self.ui.maxXanal.value()/100], [0, self.ui.maxYDs.value()], pen='g', alpha=0.5)
+        self.maxFreqAnal = self.ui.dsGraph.plot([self.ui.maxXanal.value()/100, self.ui.maxXanal.value()/100], [0, self.ui.maxYDs.value()], pen='r', alpha=0.5)
         self.minFreq = self.ui.minXanal.value()/100
         self.maxFreq = self.ui.maxXanal.value()/100
         
