@@ -161,6 +161,8 @@ class MyApp(QMainWindow):
                 #check license key valid or not
                 if LT.check_key(self.licenseKey):
                     self.ui.menuFile.setEnabled(True)
+                    self.ui.progressBar.setFormat('Activated')
+                    self.ui.Activation.setEnabled(False)
                 else:
                     self.ui.progressBar.setFormat('License key is not valid')
                     self.ui.progressBar.setValue(0)
@@ -177,6 +179,8 @@ class MyApp(QMainWindow):
         self.licenseKey = self.ui.LicenseKey.text()
         if LT.check_key(self.licenseKey):
             self.ui.menuFile.setEnabled(True)
+            self.ui.progressBar.setFormat('Activated')
+            self.ui.Activation.setEnabled(False)
         else:
             self.ui.progressBar.setFormat('License key is not valid')
             self.ui.progressBar.setValue(0)
