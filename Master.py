@@ -495,12 +495,12 @@ class MyApp(QMainWindow):
         maxY = int(self.ui.maxYDs.value())
         minX = int(self.ui.minXDs.value())
         maxX = int(self.ui.maxXDs.value())
-        self.ui.minXanal.setMinimum(int(self.ui.minXDs.value())*100)
-        self.ui.minXanal.setMaximum(int(self.ui.maxXDs.value())*100)
+        self.ui.minXanal.setMinimum(int(minX)*100)
+        self.ui.minXanal.setMaximum(int(maxX)*100)
         self.ui.maxXanal.setMinimum(int(self.ui.minXanal.value())*100)
-        self.ui.maxXanal.setMaximum(int(self.ui.maxXDs.value())*100)
-        self.ui.minXanal.setValue(int(self.minFreq*100))
-        self.ui.maxXanal.setValue(int(self.maxFreq*100))
+        self.ui.maxXanal.setMaximum(int(maxX)*100)
+        #self.ui.minXanal.setValue(int(self.minFreq*100))
+        #self.ui.maxXanal.setValue(int(self.maxFreq*100))
         self.ui.dsGraph.setYRange(0, maxY)
         self.ui.dsGraph.setXRange(minX, maxX)
         
@@ -508,10 +508,11 @@ class MyApp(QMainWindow):
         self.ui.dsGraph.removeItem(self.minFreqAnal)
         self.ui.dsGraph.removeItem(self.maxFreqAnal)
         self.minFreqAnal = self.ui.dsGraph.plot([self.ui.minXanal.value()/100, self.ui.minXanal.value()/100], [0, self.ui.maxYDs.value()], pen='g', alpha=0.5)
-        self.maxFreqAnal = self.ui.dsGraph.plot([self.ui.maxXanal.value()/100, self.ui.maxXanal.value()/100], [0, self.ui.maxYDs.value()], pen='r', alpha=0.5)
+        self.maxFreqAnal = self.ui.dsGraph.plot([self.ui.maxXanal.value()/100, self.ui.maxXanal.value()/100], [0, self.ui.maxYDs.value()], pen='g', alpha=0.5)
         self.minFreq = self.ui.minXanal.value()/100
         self.maxFreq = self.ui.maxXanal.value()/100
-        # Finding index of min and max frequency
+        
+        self.ui.maxXanal.setMinimum(int(self.ui.minXanal.value())*100)
         
         
     #--------------------- Analyzation ----------------#
