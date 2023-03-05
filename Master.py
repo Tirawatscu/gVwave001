@@ -749,19 +749,16 @@ class MyApp(QMainWindow):
             return
         else:
             # Delete the json file
-            try:
-                os.remove(fname)         
-                # Delete the deleted folder in Target folder
-                src_Model = '{}/Model/'.format(os.path.dirname(__file__))+fname.split('/')[-1].split('.')[0]
-                src_Target = '{}/Target/'.format(os.path.dirname(__file__))+fname.split('/')[-1].split('.')[0]
-                src_Storage = '{}/Storage/'.format(os.path.dirname(__file__))+fname.split('/')[-1].split('.')[0]
-                src_Param = '{}/Param/'.format(os.path.dirname(__file__))+fname.split('/')[-1].split('.')[0]
-                os.rmdir(src_Model)
-                os.rmdir(src_Param)
-                os.rmdir(src_Target)
-                os.rmdir(src_Storage)
-            except:
-                pass
+            os.remove(fname)         
+            # Delete the deleted folder in Target folder
+            src_Model = '{}/Model/'.format(os.path.dirname(__file__))+fname.split('/')[-1].split('.')[0]
+            src_Target = '{}/Target/'.format(os.path.dirname(__file__))+fname.split('/')[-1].split('.')[0]
+            src_Storage = '{}/Storage/'.format(os.path.dirname(__file__))+fname.split('/')[-1].split('.')[0]
+            src_Param = '{}/Param/'.format(os.path.dirname(__file__))+fname.split('/')[-1].split('.')[0]
+            
+            for name in [src_Model, src_Target, src_Storage, src_Param]:
+                if os.path.exists(name):
+                    shutil.rmtree(name)
     
 
 class NewProject_dialog(QDialog):
