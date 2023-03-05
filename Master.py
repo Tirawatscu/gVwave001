@@ -12,6 +12,7 @@ import numpy as np
 #import other modules
 import os
 import sys
+import shutil
 from PyPOP import POP
 import pyqtgraph as pg
 import swprepost
@@ -114,6 +115,7 @@ class MyApp(QMainWindow):
         self.ui.minXDs.valueChanged.connect(self.adjustRangeDs)
         self.ui.minXanal.valueChanged.connect(self.adjustRangeAnal)
         self.ui.maxXanal.valueChanged.connect(self.adjustRangeAnal)
+        self.ui.ExistedModel.clicked.connect(self.exportModel)
 
         self.ui.VsProfile.setLabel('bottom', 'Shear wave velocity', units='m/s')
         self.ui.VsProfile.setLabel('left', 'Depth', units='m')
@@ -625,6 +627,7 @@ class MyApp(QMainWindow):
         fname = '{}/Model/'.format(os.path.dirname(__file__))+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text() + '.txt')
         try:
             suite = swprepost.GroundModelSuite.from_geopsy(fname=fname, nmodels="all")
+            self.ui.exportModel.setEnabled(True)
         except:
             self.ui.analyzeStatus.setText("Status: Model not found for these parameters")
             return
@@ -681,6 +684,54 @@ class MyApp(QMainWindow):
         self.ui.analyzeStatus.setText("Status: Done")
         self.ui.analyzeStatus_2.setText(f"Misfit: {np.min(suite.misfits):.4f}")
         
+    #-----------------End of Inversion-----------------#
+    #----------------- Export Model -----------------#
+    def exportModel(self):
+        src_folder = '{}/Model/'.format(os.path.dirname(__file__))+self.ui.Station_in.text()
+        
+        mounted_devices = os.popen("lsblk -l -o NAME,MOUNTPOINT | grep '^sd' | awk '{print $1,$2}'").read()
+
+        mounted_devices = [device.split() for device in mounted_devices.split('\n') if device]
+
+        flash_drive_mount_point = None
+        for device in mounted_devices:
+            if device[0].startswith('sda'):
+                try:
+                    flash_drive_mount_point = device[1]
+                    break
+                except:
+                    pass
+
+        if not flash_drive_mount_point:
+            print("Error: Flash drive is not mounted")
+            return
+
+        dest_folder = os.path.join(flash_drive_mount_point, "Exported Models")
+
+        #if not os.path.exists(dest_folder):
+
+        dest_src_folder = os.path.join(dest_folder, os.path.basename(src_folder))
+        
+        if not os.path.exists(dest_src_folder):
+            os.makedirs(dest_src_folder)
+
+        if not os.path.exists(src_folder):
+            print("Error: Source folder does not exist")
+            return
+        
+        if not os.path.exists(dest_src_folder):
+            print("Error: Destination folder for source folder does not exist")
+            return
+        
+        for item in os.listdir(src_folder):
+            srcitem = os.path.join(src_folder, item)
+            destitem = os.path.join(dest_src_folder, item)
+            if not os.path.isdir(srcitem):
+                shutil.copy2(srcitem, destitem)
+        
+        shutil.move(src_folder, dest_src_folder)
+        print("Folder moved successfully")
+        #-----------------End of Export Model-----------------#
 
 class NewProject_dialog(QDialog):
     def __init__(self, parent=None):
