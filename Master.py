@@ -730,8 +730,15 @@ class MyApp(QMainWindow):
             if not os.path.isdir(srcitem):
                 shutil.copy2(srcitem, destitem)
         
-        shutil.move(src_folder, dest_src_folder)
-        print("Folder moved successfully")
+        # Move the folder to the destination
+        for item in os.listdir(src_folder):
+            srcitem = os.path.join(src_folder, item)
+            destitem = os.path.join(dest_src_folder, item)
+            if not os.path.isdir(srcitem):
+                shutil.copy2(srcitem, destitem)
+                self.ui.analyzeStatus.setText("Status: Exporting to USB done")
+                
+            
         #-----------------End of Export Model-----------------#
 
 class NewProject_dialog(QDialog):
