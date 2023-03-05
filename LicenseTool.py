@@ -36,12 +36,17 @@ def decode(encoded, password):
 
 
 
-def check_key(key):
+def check_key(password):
+    # Check password length
+    
+    if len(password) < 16:
+        return False
+    
     # Get the serial number of the Raspberry Pi
     serial = subprocess.run(["cat", "/sys/firmware/devicetree/base/serial-number"], stdout=subprocess.PIPE, universal_newlines=True).stdout.strip().split("\n")[-1].split(":")[-1].strip()
     #print(f"Serial number: {serial}")
     # Decode the key and compare it to the serial number
-    decoded = decode(key, "IgMxIyEjMyQhNCMi")
+    decoded = decode("eVd9SHlJdVooTDReLCIuC0k", password)
     if decoded == serial:
         return True
         #print("This code is running on the correct Raspberry Pi.")
