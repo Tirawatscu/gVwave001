@@ -503,9 +503,13 @@ class MyApp(QMainWindow):
         self.ui.dsGraph.setXRange(minX, maxX)
         
     def adjustRangeAnal(self):
-        self.minFreqAnal.clear()
+        self.ui.dsGraph.removeItem(self.minFreqAnal)
+        self.ui.dsGraph.removeItem(self.maxFreqAnal)
         self.minFreqAnal = self.ui.dsGraph.plot([self.ui.minXanal.value()/100, self.ui.minXanal.value()/100], [0, self.ui.maxYDs.value()], pen='g', alpha=0.5)
-
+        self.maxFreqAnal = self.ui.dsGraph.plot([self.ui.maxXanal.value()/100, self.ui.maxXanal.value()/100], [0, self.ui.maxYDs.value()], pen='r', alpha=0.5)
+        self.minFreq = self.ui.minXanal.value()/100
+        self.maxFreq = self.ui.maxXanal.value()/100
+        
     #--------------------- Analyzation ----------------#
     def analFunction(self):
         #check Target folder exist if not create
