@@ -109,6 +109,9 @@ class MyApp(QMainWindow):
         self.ui.Analyse.clicked.connect(self.analFunction)
         self.ui.Analyzing.clicked.connect(self.inversion)
         self.ui.RunButton.clicked.connect(self.runTest)
+        self.ui.maxYDs.valueChanged.connect(self.adjustRangeDs)
+        self.ui.maxXDs.valueChanged.connect(self.adjustRangeDs)
+        self.ui.minXDs.valueChanged.connect(self.adjustRangeDs)
 
         self.ui.VsProfile.setLabel('bottom', 'Shear wave velocity', units='m/s')
         self.ui.VsProfile.setLabel('left', 'Depth', units='m')
@@ -116,7 +119,7 @@ class MyApp(QMainWindow):
         self.ui.VpProfile.setLabel('bottom', 'Compression wave velocity', units='m/s')
         self.ui.VpProfile.setLabel('left', 'Depth', units='m')
         self.ui.VpProfile.setBackground('w')
-        self.ui.densityProfile.setLabel('bottom', 'Density', units='kg/m3')
+        self.ui.densityProfile.setLabel('bottom', 'Density', units='g/m3')
         self.ui.densityProfile.setLabel('left', 'Depth', units='m')
         self.ui.densityProfile.setBackground('w')
 
@@ -126,7 +129,7 @@ class MyApp(QMainWindow):
         self.ui.VpProfile_2.setLabel('bottom', 'Compression wave velocity', units='m/s')
         self.ui.VpProfile_2.setLabel('left', 'Depth', units='m')
         self.ui.VpProfile_2.setBackground('w')
-        self.ui.densityProfile_2.setLabel('bottom', 'Density', units='kg/m3')
+        self.ui.densityProfile_2.setLabel('bottom', 'Density', units='g/m3')
         self.ui.densityProfile_2.setLabel('left', 'Depth', units='m')
         self.ui.densityProfile_2.setBackground('w')
 
@@ -482,6 +485,15 @@ class MyApp(QMainWindow):
         self.std = np.ndarray.flatten((std[maxC_index: index]))
 
         self.ui.dsGraph.setXRange(0, self.maxFreq+0.2*self.maxFreq)
+        
+    def adjustRangeDs(self):
+        self.ui.maxXDs.setMinimum(int(self.ui.minXDs.text()))
+        maxY = int(self.ui.maxYDs.text())
+        minX = int(self.ui.minXDs.text())
+        maxX = int(self.ui.maxXDs.text())
+        
+        self.ui.dsGraph.setYRange(0, maxY)
+        self.ui.dsGraph.setXRange(minX, maxX)
 
     #--------------------- Analyzation ----------------#
     def analFunction(self):
