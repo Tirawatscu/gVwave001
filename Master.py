@@ -487,8 +487,8 @@ class MyApp(QMainWindow):
         self.analstd = np.ndarray.flatten((self.std[maxC_index: index]))
         
         self.ui.dsGraph.setXRange(0, self.maxFreq+0.2*self.maxFreq)
-        self.ui.minXanal.setMaximum(self.maxFreq+0.2*self.maxFreq)
-        self.ui.maxXanal.setMaximum(self.maxFreq+0.2*self.maxFreq)
+        self.ui.minXanal.setMaximum(int(self.maxFreq+0.2*self.maxFreq))
+        self.ui.maxXanal.setMaximum(int(self.maxFreq+0.2*self.maxFreq))
         
     def adjustRangeDs(self):
         self.ui.maxXDs.setMinimum(int(self.ui.minXDs.value()))
