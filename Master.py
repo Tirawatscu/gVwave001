@@ -144,6 +144,7 @@ class MyApp(QMainWindow):
         self.ui.dF.setEnabled(False)
         self.ui.reverseLayer.setChecked(True)
         self.ui.progressBar.setFormat('Ready')
+        self.ui.ExistedModel.setEnabled(False)
 
         #check folder Storage exist or not if not create it
         if not os.path.exists(os.path.join(os.path.dirname(__file__), 'Storage')):
@@ -627,7 +628,7 @@ class MyApp(QMainWindow):
         fname = '{}/Model/'.format(os.path.dirname(__file__))+self.ui.Station_in.text()+'/'+self.ui.Station_in.text()+'_'+str(self.ui.id_Out.text() + '.txt')
         try:
             suite = swprepost.GroundModelSuite.from_geopsy(fname=fname, nmodels="all")
-            self.ui.exportModel.setEnabled(True)
+            self.ui.ExistedModel.setEnabled(True)
         except:
             self.ui.analyzeStatus.setText("Status: Model not found for these parameters")
             return
