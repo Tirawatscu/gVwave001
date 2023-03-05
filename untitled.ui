@@ -38,7 +38,7 @@
        <enum>QTabWidget::West</enum>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <property name="documentMode">
        <bool>true</bool>
@@ -1439,6 +1439,7 @@
     </property>
     <addaction name="actionNew_Workspace"/>
     <addaction name="actionOpen"/>
+    <addaction name="actionDelete_project"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
@@ -1463,6 +1464,11 @@
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionDelete_project">
+   <property name="text">
+    <string>Delete project</string>
    </property>
   </action>
  </widget>

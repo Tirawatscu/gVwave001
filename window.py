@@ -814,14 +814,17 @@ class Ui_gVwave(object):
         self.actionOpen.setObjectName("actionOpen")
         self.actionAbout = QtWidgets.QAction(gVwave)
         self.actionAbout.setObjectName("actionAbout")
+        self.actionDelete_project = QtWidgets.QAction(gVwave)
+        self.actionDelete_project.setObjectName("actionDelete_project")
         self.menuFile.addAction(self.actionNew_Workspace)
         self.menuFile.addAction(self.actionOpen)
+        self.menuFile.addAction(self.actionDelete_project)
         self.menuAbout.addAction(self.actionAbout)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuAbout.menuAction())
 
         self.retranslateUi(gVwave)
-        self.tabWidget.setCurrentIndex(3)
+        self.tabWidget.setCurrentIndex(0)
         self.tabWidget_2.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(gVwave)
 
@@ -899,6 +902,7 @@ class Ui_gVwave(object):
         self.actionNew_Workspace.setText(_translate("gVwave", "New workspace"))
         self.actionOpen.setText(_translate("gVwave", "Import project"))
         self.actionAbout.setText(_translate("gVwave", "About"))
+        self.actionDelete_project.setText(_translate("gVwave", "Delete project"))
 from pyqtgraph import PlotWidget
 
 

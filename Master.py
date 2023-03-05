@@ -63,6 +63,7 @@ class MyApp(QMainWindow):
         self.showFullScreen()
         self.ui.Wave1.setBackground('w')
         self.ui.actionNew_Workspace.triggered.connect(self.menuFile)
+        self.ui.actionDelete_project.triggered.connect(self.deleteProject)
         self.ui.actionOpen.triggered.connect(self.getfile)
         self.timeDuration = {
             '30 s' : 30,
@@ -155,7 +156,6 @@ class MyApp(QMainWindow):
             os.makedirs('Header')'''
         self.storagePath = os.path.join(os.path.dirname(__file__), 'Storage')
         self.workspacePath = os.path.join(os.path.dirname(__file__), 'Workspace')
-        #self.ui.LicenseKey.setText('IgMxIyEjMyQhNCMi')
         self.ui.Activation.clicked.connect(self.submitLicense)
         self.checkLicense()
         
@@ -741,8 +741,28 @@ class MyApp(QMainWindow):
                 shutil.copy2(srcitem, destitem)
                 self.ui.analyzeStatus.setText("Status: Exporting to USB done")
                 
-            
         #-----------------End of Export Model-----------------#
+    
+    def deleteProject(self):
+        fname = QFileDialog.getOpenFileName(self, "Import json", self.workspacePath, "JSON Files (*.json)")[0]
+        if fname == "":
+            return
+        else:
+            # Delete the json file
+            try:
+                os.remove(fname)         
+                # Delete the deleted folder in Target folder
+                src_Model = '{}/Model/'.format(os.path.dirname(__file__))+fname.split('/')[-1].split('.')[0]
+                src_Target = '{}/Target/'.format(os.path.dirname(__file__))+fname.split('/')[-1].split('.')[0]
+                src_Storage = '{}/Storage/'.format(os.path.dirname(__file__))+fname.split('/')[-1].split('.')[0]
+                src_Param = '{}/Param/'.format(os.path.dirname(__file__))+fname.split('/')[-1].split('.')[0]
+                os.rmdir(src_Model)
+                os.rmdir(src_Param)
+                os.rmdir(src_Target)
+                os.rmdir(src_Storage)
+            except:
+                pass
+    
 
 class NewProject_dialog(QDialog):
     def __init__(self, parent=None):
