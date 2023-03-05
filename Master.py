@@ -511,6 +511,8 @@ class MyApp(QMainWindow):
         self.maxFreqAnal = self.ui.dsGraph.plot([self.ui.maxXanal.value()/100, self.ui.maxXanal.value()/100], [0, self.ui.maxYDs.value()], pen='r', alpha=0.5)
         self.minFreq = self.ui.minXanal.value()/100
         self.maxFreq = self.ui.maxXanal.value()/100
+        self.minC = self.C[np.argmin(np.abs(self.F - self.minFreq))]
+        self.maxC = self.C[np.argmin(np.abs(self.F - self.maxFreq))]
         
         self.ui.maxXanal.setMinimum(int(self.ui.minXanal.value()))
         
