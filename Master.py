@@ -460,11 +460,7 @@ class MyApp(QMainWindow):
         self.ui.dsGraph.setYRange(0, 500)
         self.ui.dsGraph.setLabel('left', 'Phase velocity', units='m/s')
         self.ui.dsGraph.setLabel('bottom', 'Frequency', units='Hz')
-        #plot error barpy
-        '''error = pg.ErrorBarItem(x=self.F, y=C, height=self., beam=0.1)
-        self.ui.error = pg.ErrorBarItem(beam=0.5)
-        # setting data to error bar item
-        error.setData(x=self.F, y=C, top=C+C*self., bottom=C-C*self.)'''
+        
 
 
         #--------------- Finding Parameter ------------#
@@ -487,20 +483,21 @@ class MyApp(QMainWindow):
         self.analstd = np.ndarray.flatten((self.std[maxC_index: index]))
         
         self.ui.dsGraph.setXRange(0, self.maxFreq+0.2*self.maxFreq)
-        self.ui.minXanal.setMaximum(int(self.maxFreq+0.2*self.maxFreq))
-        self.ui.maxXanal.setMaximum(int(self.maxFreq+0.2*self.maxFreq))
+        self.ui.minXanal.setMaximum(int(self.maxFreq+0.2*self.maxFreq)*100)
+        self.ui.maxXanal.setMaximum(int(self.maxFreq+0.2*self.maxFreq)*100)
+        self.ui.minXanal.setValue(int(self.minFreq*100))
+        self.ui.maxXanal.setValue(int(self.maxFreq*100))
         
     def adjustRangeDs(self):
         self.ui.maxXDs.setMinimum(int(self.ui.minXDs.value()))
-        self.ui.minXanal.setValue(int(self.minFreq*100))
-        self.ui.maxXanal.setValue(int(self.maxFreq*100))
         maxY = int(self.ui.maxYDs.value())
         minX = int(self.ui.minXDs.value())
         maxX = int(self.ui.maxXDs.value())
-        self.ui.minXanal.setMinimum(0)
-        self.ui.minXanal.setMaximum(50)
-        self.ui.maxXanal.setMinimum(int(self.ui.minXanal.value())*100)
-        self.ui.maxXanal.setMaximum(50)
+        self.ui.minXanal.setMinimum(int(self.ui.minXDs.value())*100)
+        self.ui.minXanal.setMaximum(int(self.ui.maxXDs.value())*100)
+        self.ui.maxXanal.setMinimum(int(self.ui.minXanal.value()))
+        self.ui.maxXanal.setMaximum(int(self.ui.maxXDs.value())*100)
+        
         self.ui.dsGraph.setYRange(0, maxY)
         self.ui.dsGraph.setXRange(minX, maxX)
         
@@ -512,7 +509,7 @@ class MyApp(QMainWindow):
         self.minFreq = self.ui.minXanal.value()/100
         self.maxFreq = self.ui.maxXanal.value()/100
         
-        self.ui.maxXanal.setMinimum(int(self.ui.minXanal.value())*100)
+        self.ui.maxXanal.setMinimum(int(self.ui.minXanal.value()))
         
         
     #--------------------- Analyzation ----------------#
