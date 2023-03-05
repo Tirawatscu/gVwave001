@@ -112,6 +112,8 @@ class MyApp(QMainWindow):
         self.ui.maxYDs.valueChanged.connect(self.adjustRangeDs)
         self.ui.maxXDs.valueChanged.connect(self.adjustRangeDs)
         self.ui.minXDs.valueChanged.connect(self.adjustRangeDs)
+        self.ui.minXanal.valueChanged.connect(self.adjustRangeAnal)
+        self.ui.maxXanal.valueChanged.connect(self.adjustRangeAnal)
 
         self.ui.VsProfile.setLabel('bottom', 'Shear wave velocity', units='m/s')
         self.ui.VsProfile.setLabel('left', 'Depth', units='m')
@@ -477,8 +479,8 @@ class MyApp(QMainWindow):
         #Find index of max Vs in C
         maxC_index = np.where(C == self.maxC)[0][0]
         #Plot vertical line of max Vs and alias frequency and set alpha to 0.5
-        self.ui.dsGraph.plot([F[maxC_index], F[maxC_index]], [0, 500], pen='g', alpha=0.5)
-        self.ui.dsGraph.plot([F[index], F[index]], [0, 500], pen='g', alpha=0.5)
+        self.minFreqAnal = self.ui.dsGraph.plot([F[maxC_index], F[maxC_index]], [0, self.ui.maxYDs.value()], pen='g', alpha=0.5)
+        self.maxFreqAnal = self.ui.dsGraph.plot([F[index], F[index]], [0, self.ui.maxYDs.value()], pen='g', alpha=0.5)
 
         self.analFreq = np.ndarray.flatten((F[maxC_index: index]))
         self.analC = np.ndarray.flatten((C[maxC_index: index]))
@@ -491,9 +493,18 @@ class MyApp(QMainWindow):
         maxY = int(self.ui.maxYDs.value())
         minX = int(self.ui.minXDs.value())
         maxX = int(self.ui.maxXDs.value())
-        
+        self.ui.minXanal.setMaximum(int(self.ui.minXDs.value())*100)
+        self.ui.minXanal.setMaximum(int(self.ui.maxXDs.value())*100)
+        self.ui.maxXanal.setMinimum(int(self.ui.minXDs.value())*100)
+        self.ui.maxXanal.setMaximum(int(self.ui.maxXDs.value())*100)
+        self.ui.minXanal.setValue(int(self.minFreq*100))
+        self.ui.maxXanal.setValue(int(self.maxFreq*100))
         self.ui.dsGraph.setYRange(0, maxY)
         self.ui.dsGraph.setXRange(minX, maxX)
+        
+    def adjustRangeAnal(self):
+        self.minFreqAnal.clear()
+        self.minFreqAnal = self.ui.dsGraph.plot([self.ui.minXanal.value()/100, self.ui.minXanal.value()/100], [0, self.ui.maxYDs.value()], pen='g', alpha=0.5)
 
     #--------------------- Analyzation ----------------#
     def analFunction(self):
