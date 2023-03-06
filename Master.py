@@ -13,7 +13,7 @@ import numpy as np
 import os
 import sys
 import shutil
-#from PyPOP import POP
+from PyPOP import POP
 import pyqtgraph as pg
 import swprepost
 import matplotlib.pyplot as plt
@@ -23,7 +23,7 @@ import subprocess
 import time
 import threading
 import LicenseTool as LT
-#from gVseismModule import gVseismModule
+from gVseismModule import gVseismModule
 
 class Worker(QObject):
     finished = pyqtSignal()
