@@ -13,7 +13,7 @@ import numpy as np
 import os
 import sys
 import shutil
-from PyPOP import POP
+#from PyPOP import POP
 import pyqtgraph as pg
 import swprepost
 import matplotlib.pyplot as plt
@@ -23,7 +23,7 @@ import subprocess
 import time
 import threading
 import LicenseTool as LT
-from gVseismModule import gVseismModule
+#from gVseismModule import gVseismModule
 
 class Worker(QObject):
     finished = pyqtSignal()
@@ -84,9 +84,16 @@ class MyApp(QMainWindow):
         self.ui.Wave2.setLabel('left', 'Voltage', units='V')
         self.ui.Wave3.setBackground('w')
         self.ui.Wave3.setLabel('left', 'Voltage', units='V')
-        self.ui.Wave1.setYRange(-1, 1)
-        self.ui.Wave2.setYRange(-1, 1)
-        self.ui.Wave3.setYRange(-1, 1)
+        self.testWaveMin = -1
+        self.testWaveMax = 1
+        self.waveMin = -1
+        self.waveMax = 1 
+        self.ui.Wave1.setYRange(self.testWaveMin, self.testWaveMax)
+        self.ui.Wave2.setYRange(self.testWaveMin, self.testWaveMax)
+        self.ui.Wave3.setYRange(self.testWaveMin, self.testWaveMax)
+        self.ui.Wave1_2.setYRange(self.waveMin, self.waveMax)
+        self.ui.Wave1_3.setYRange(self.waveMin, self.waveMax)
+        self.ui.Wave1_4.setYRange(self.waveMin, self.waveMax)
         self.ui.tableWidget.setColumnCount(1)
         self.ui.tableWidget.setColumnWidth(0, 250)
         self.ui.tableWidget.cellClicked.connect(self.rowSelected)
@@ -120,6 +127,10 @@ class MyApp(QMainWindow):
         self.ui.minXanal.valueChanged.connect(self.adjustRangeAnal)
         self.ui.maxXanal.valueChanged.connect(self.adjustRangeAnal)
         self.ui.ExistedModel.clicked.connect(self.exportModel)
+        self.ui.testGraphUp.clicked.connect(self.runTestScalingUp)
+        self.ui.testGraphDown.clicked.connect(self.runTestScalingDown)
+        self.ui.waveUp.clicked.connect(self.waveScalingUp)
+        self.ui.waveDown.clicked.connect(self.waveScalingDown)
 
         self.ui.VsProfile.setLabel('bottom', 'Shear wave velocity', units='m/s')
         self.ui.VsProfile.setLabel('left', 'Depth', units='m')
@@ -296,15 +307,15 @@ class MyApp(QMainWindow):
             self.ui.Wave1_2.clear()
             self.ui.Wave1_2.plot(self.time, self.df['Ch 1'], pen='r')
             self.ui.Wave1_2.setLabel('left', 'Amplitude', units='V')
-            self.ui.Wave1_2.setYRange(-1, 1)
+            self.ui.Wave1_2.setYRange(self.waveMin, self.waveMax)
             self.ui.Wave1_3.clear()
             self.ui.Wave1_3.plot(self.time, self.df['Ch 2'], pen='g')
             self.ui.Wave1_3.setLabel('left', 'Amplitude', units='V')
-            self.ui.Wave1_3.setYRange(-1, 1)
+            self.ui.Wave1_3.setYRange(self.waveMin, self.waveMax)
             self.ui.Wave1_4.clear()
             self.ui.Wave1_4.plot(self.time, self.df['Ch 3'], pen='b')
             self.ui.Wave1_4.setLabel('left', 'Amplitude', units='V')
-            self.ui.Wave1_4.setYRange(-1, 1)
+            self.ui.Wave1_4.setYRange(self.waveMin, self.waveMax)
         else:
             self.ui.dsPlot.setEnabled(False)
             self.ui.Wave1_2.clear()
@@ -317,7 +328,25 @@ class MyApp(QMainWindow):
             self.ui.ExistedModel.setEnabled(True)
         else:
             self.ui.ExistedModel.setEnabled(False)
-
+            
+    #-------------------------------------------------#
+    #------------------ Wave Scaling -----------------#
+    
+    def waveScalingUp(self):
+        self.waveMin = self.waveMin*2
+        self.waveMax = self.waveMax*2
+        self.ui.Wave1_2.setYRange(self.waveMin, self.waveMax)
+        self.ui.Wave1_3.setYRange(self.waveMin, self.waveMax)
+        self.ui.Wave1_4.setYRange(self.waveMin, self.waveMax)
+        
+    def waveScalingDown(self):
+        self.waveMin = self.waveMin/2
+        self.waveMax = self.waveMax/2
+        self.ui.Wave1_2.setYRange(self.waveMin, self.waveMax)
+        self.ui.Wave1_3.setYRange(self.waveMin, self.waveMax)
+        self.ui.Wave1_4.setYRange(self.waveMin, self.waveMax)
+    
+    #-------------------------------------------------#
 
     #------------- Save Configuration ----------------#
     #-------------------------------------------------#
@@ -376,17 +405,31 @@ class MyApp(QMainWindow):
         time = dfTemp['Time (s)']
         self.ui.Wave1.clear()
         self.ui.Wave1.plot(time, dfTemp['Ch 1'], pen='r')
+        self.ui.Wave1.setYRange(self.testWaveMin, self.testWaveMax)
         self.ui.Wave2.clear()
         self.ui.Wave2.plot(time, dfTemp['Ch 2'], pen='g')
+        self.ui.Wave2.setYRange(self.testWaveMin, self.testWaveMax)
         self.ui.Wave3.clear()
         self.ui.Wave3.plot(time, dfTemp['Ch 3'], pen='b')
+        self.ui.Wave3.setYRange(self.testWaveMin, self.testWaveMax)
 
     #-------------------------------------------------#
     
     #--------------- Scaling Runtest Chart -----------#
     
-    def runTestScaling(self):
-        return
+    def runTestScalingUp(self):
+        self.testWaveMin = self.testWaveMin*2
+        self.testWaveMax = self.testWaveMax*2
+        self.ui.Wave1.setYRange(self.testWaveMin, self.testWaveMax)
+        self.ui.Wave2.setYRange(self.testWaveMin, self.testWaveMax)
+        self.ui.Wave3.setYRange(self.testWaveMin, self.testWaveMax)
+        
+    def runTestScalingDown(self):
+        self.testWaveMin = self.testWaveMin/2
+        self.testWaveMax = self.testWaveMax/2
+        self.ui.Wave1.setYRange(self.testWaveMin, self.testWaveMax)
+        self.ui.Wave2.setYRange(self.testWaveMin, self.testWaveMax)
+        self.ui.Wave3.setYRange(self.testWaveMin, self.testWaveMax)
     
     #-------------------------------------------------#
 
