@@ -84,6 +84,9 @@ class MyApp(QMainWindow):
         self.ui.Wave2.setLabel('left', 'Voltage', units='V')
         self.ui.Wave3.setBackground('w')
         self.ui.Wave3.setLabel('left', 'Voltage', units='V')
+        self.ui.Wave1.setYRange(-1, 1)
+        self.ui.Wave2.setYRange(-1, 1)
+        self.ui.Wave3.setYRange(-1, 1)
         self.ui.tableWidget.setColumnCount(1)
         self.ui.tableWidget.setColumnWidth(0, 250)
         self.ui.tableWidget.cellClicked.connect(self.rowSelected)
@@ -293,12 +296,15 @@ class MyApp(QMainWindow):
             self.ui.Wave1_2.clear()
             self.ui.Wave1_2.plot(self.time, self.df['Ch 1'], pen='r')
             self.ui.Wave1_2.setLabel('left', 'Amplitude', units='V')
+            self.ui.Wave1_2.setYRange(-1, 1)
             self.ui.Wave1_3.clear()
             self.ui.Wave1_3.plot(self.time, self.df['Ch 2'], pen='g')
             self.ui.Wave1_3.setLabel('left', 'Amplitude', units='V')
+            self.ui.Wave1_3.setYRange(-1, 1)
             self.ui.Wave1_4.clear()
             self.ui.Wave1_4.plot(self.time, self.df['Ch 3'], pen='b')
             self.ui.Wave1_4.setLabel('left', 'Amplitude', units='V')
+            self.ui.Wave1_4.setYRange(-1, 1)
         else:
             self.ui.dsPlot.setEnabled(False)
             self.ui.Wave1_2.clear()
@@ -375,6 +381,13 @@ class MyApp(QMainWindow):
         self.ui.Wave3.clear()
         self.ui.Wave3.plot(time, dfTemp['Ch 3'], pen='b')
 
+    #-------------------------------------------------#
+    
+    #--------------- Scaling Runtest Chart -----------#
+    
+    def runTestScaling(self):
+        return
+    
     #-------------------------------------------------#
 
     #--------------- Start Recording -----------------#
