@@ -43,9 +43,9 @@ class gVseismModule():
                 pyadda.collectData(),
                 data.append([
                         timeStamp, 
-                        pyadda.readAllChannelsVolts(4)[0], 
                         pyadda.readAllChannelsVolts(4)[1], 
-                        pyadda.readAllChannelsVolts(4)[2],
+                        pyadda.readAllChannelsVolts(4)[2], 
+                        pyadda.readAllChannelsVolts(4)[3],
                         ])
                 pyadda.collectData()
                 counter += 1
